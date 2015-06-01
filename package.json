@@ -1,0 +1,19 @@
+{
+  "name": "angular-jitsi-meet",
+  "version": "0.0.1",
+  "description": "Angular Wrappers for Jitsi-Meet",
+  "main": "index.js",
+  "scripts": {
+    "test": "true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pstros/angular-jitsi-meet.git"
+  },
+  "author": "Casey Watson <watsoncj@gmail.com> (http://caseywat.so/n)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pstros/angular-jitsi-meet/issues"
+  },
+  "homepage": "https://github.com/pstros/angular-jitsi-meet"
+}
