@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/pstros/angular-jitsi-meet/issues"
   },
-  "homepage": "https://github.com/pstros/angular-jitsi-meet"
+  "homepage": "https://github.com/pstros/angular-jitsi-meet",
+  "devDependencies": {
+    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git"
+  }
 }
