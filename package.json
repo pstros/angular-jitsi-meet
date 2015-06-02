@@ -4,7 +4,7 @@
   "description": "Angular Wrappers for Jitsi-Meet",
   "main": "index.js",
   "scripts": {
-    "test": "true",
+    "test": "coffeelint src/**/*.coffee",
     "browserify": "browserify -e index.js -s APP -o angular-jitsi-meet.js"
   },
   "repository": {
@@ -17,8 +17,12 @@
     "url": "https://github.com/pstros/angular-jitsi-meet/issues"
   },
   "homepage": "https://github.com/pstros/angular-jitsi-meet",
+  "dependencies": {
+    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git"
+  },
   "devDependencies": {
     "angular": "^1.4.0",
-    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git"
+    "browserify": "^10.2.3",
+    "coffeelint": "^1.10.0"
   }
 }
