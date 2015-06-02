@@ -10,7 +10,7 @@ init:
 clean:
 	rm -rf dist/
 	rm -rf lib/
-	rm $(BUNDLE)
+	rm -f $(BUNDLE)
 
 test:
 	coffeelint src/**/*.coffee
