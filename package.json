@@ -23,6 +23,7 @@
   "devDependencies": {
     "angular": "^1.4.0",
     "browserify": "^10.2.3",
+    "coffee-script": "^1.9.3",
     "coffeelint": "^1.10.0"
   }
 }
