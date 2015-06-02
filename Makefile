@@ -13,10 +13,10 @@ clean:
 	rm -f $(BUNDLE)
 
 test:
-	coffeelint src/**/*.coffee
+	node_modules/.bin/coffeelint src/**/*.coffee
 
 build:
-	coffee -o lib/ -c src/
+	node_modules/.bin/coffee -o lib/ -c src/
 
 browserify: build
 	node_modules/.bin/browserify -e index.js -s APP -o ${BUNDLE}
