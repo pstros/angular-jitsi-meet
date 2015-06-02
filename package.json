@@ -4,8 +4,8 @@
   "description": "Angular Wrappers for Jitsi-Meet",
   "main": "index.js",
   "scripts": {
-    "test": "coffeelint src/**/*.coffee",
-    "browserify": "browserify -e index.js -s APP -o angular-jitsi-meet.js"
+    "test": "make dist",
+    "browserify": "make browserify"
   },
   "repository": {
     "type": "git",

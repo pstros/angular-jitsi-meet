@@ -1,7 +1,8 @@
-PATH := ./node_modules/.bin:${PATH}
 BUNDLE := angular-jitsi-meet.js
 
-.PHONY: all test clean
+.PHONY: dist init clean test build browserify publish
+
+dist: clean init test build browserify
 
 init:
 	npm install
@@ -9,7 +10,7 @@ init:
 clean:
 	rm -rf dist/
 	rm -rf lib/
-	rm ${BUNDLE}
+	rm $(BUNDLE)
 
 test:
 	coffeelint src/**/*.coffee
@@ -17,12 +18,9 @@ test:
 build:
 	coffee -o lib/ -c src/
 
-browserify:
-	browserify -e index.js -s APP -o ${BUNDLE}
+browserify: build
+	node_modules/.bin/browserify -e index.js -s APP -o ${BUNDLE}
 
-dist: clean init test build browserify
-
-default: dist
-#publish: dist
-	#npm publish
+publish: dist
+	npm publish
 
