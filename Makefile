@@ -18,7 +18,7 @@ build:
 	node_modules/.bin/coffee -o lib/ -c src/
 
 browserify: build
-	mkdir dist/
+	mkdir -p dist/
 	node_modules/.bin/browserify -e index.js -s APP -o ${BUNDLE}
 
 publish: dist
