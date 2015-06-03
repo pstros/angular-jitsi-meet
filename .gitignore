@@ -1,3 +1,8 @@
 dist/
+<<<<<<< HEAD
 lib/
 node_modules/
+=======
+node_modules/
+lib/
+>>>>>>> 7ff37331bf95d3d907d7b4b6694102ce01bfc67f
