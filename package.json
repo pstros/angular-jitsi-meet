@@ -1,19 +1,33 @@
 {
   "name": "angular-jitsi-meet",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Angular Wrappers for Jitsi-Meet",
   "main": "index.js",
   "scripts": {
-    "test": "true"
+    "test": "make dist",
+    "browserify": "make browserify"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/pstros/angular-jitsi-meet.git"
   },
-  "author": "Casey Watson <watsoncj@gmail.com> (http://caseywat.so/n)",
+  "author": "Casey Watson <watsoncj@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/pstros/angular-jitsi-meet/issues"
   },
-  "homepage": "https://github.com/pstros/angular-jitsi-meet"
+  "homepage": "https://github.com/pstros/angular-jitsi-meet",
+  "dependencies": {
+    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git"
+  },
+  "devDependencies": {
+    "angular": "^1.4.0",
+    "browserify": "^10.2.3",
+    "coffee-script": "^1.9.3",
+    "coffeelint": "^1.10.0"
+  },
+  "files": [
+    "lib/",
+    "dist/"
+  ]
 }
