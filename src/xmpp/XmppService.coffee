@@ -21,10 +21,6 @@ module.exports = ($log, $rootScope) ->
     eject: eject
     isModerator: isModerator
 
-  init()
-
-  return service
-
   checkForNicknameAndJoin = ->
     #Called from the maybeDoJoin function in the jitsi XMPP.js file
     #Since we have no access to the settings object we call those methods here:
@@ -103,3 +99,8 @@ module.exports = ($log, $rootScope) ->
     $log.debug 'Connecting to ' + config.bosh
     XMPP.start()
     return
+
+  init()
+
+  return service
+
