@@ -11,7 +11,7 @@ module.exports = ($log, $rootScope) ->
     roomName: ''
     uid: ''
 
-  service = 
+  service =
     start: start
     isConnected: isConnected
     participants: members
@@ -20,9 +20,9 @@ module.exports = ($log, $rootScope) ->
     setMute: setMute
     eject: eject
     isModerator: isModerator
-  
+
   init()
-  
+
   return service
 
   checkForNicknameAndJoin = ->
@@ -33,7 +33,7 @@ module.exports = ($log, $rootScope) ->
     if userInfo.nick
       XMPP.getConnection().emuc.addDisplayNameToPresence userInfo.nick
     XMPP.getConnection().emuc.addUserIdToPresence userInfo.uid
-    
+
     $log.debug 'Connecting to room: ' + userInfo.roomName + ' with nick: ' + userInfo.nick
     XMPP.getConnection().rawInput = eventLogger
     XMPP.joinRoom userInfo.roomName, config.useNicks, userInfo.nick
@@ -46,7 +46,7 @@ module.exports = ($log, $rootScope) ->
   eject = (jid) ->
     XMPP.eject jid
     return
-  
+
   generateUniqueId = ->
     _p8 = ->
       (Math.random().toString(16) + '000000000').substr 2, 8
@@ -68,7 +68,7 @@ module.exports = ($log, $rootScope) ->
   logout = ->
     XMPP.disposeConference()
     return
-    
+
   setupListeners = ->
     kickedListener = ->
       XMPP.removeListener 'xmpp.kicked', kickedListener
@@ -92,24 +92,14 @@ module.exports = ($log, $rootScope) ->
   setMute = (jid, mute) ->
     XMPP.setMute jid, mute
     return
-    
+
   start = (inRoomName, inNick) ->
     userInfo.nick = inNick
     userInfo.email = inRoomName
     userInfo.roomName = inRoomName.replace('@', '.') + '@' + config.hosts.muc
-    
+
     $log.debug 'Setting room to: ' + userInfo.roomName + ' and nick to: ' + userInfo.nick
     setupListeners()
     $log.debug 'Connecting to ' + config.bosh
     XMPP.start()
     return
-
-  
-
-  
-
-  
-
-  
-
-  
