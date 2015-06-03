@@ -11,15 +11,6 @@ module.exports = ($log, $rootScope) ->
     roomName: ''
     uid: ''
 
-  service =
-    start: start
-    isConnected: isConnected
-    participants: members
-    userInfo: userInfo
-    logout: logout
-    setMute: setMute
-    eject: eject
-    isModerator: isModerator
 
   checkForNicknameAndJoin = ->
     #Called from the maybeDoJoin function in the jitsi XMPP.js file
@@ -102,5 +93,11 @@ module.exports = ($log, $rootScope) ->
 
   init()
 
-  return service
-
+  start: start
+  isConnected: isConnected
+  participants: members
+  userInfo: userInfo
+  logout: logout
+  setMute: setMute
+  eject: eject
+  isModerator: isModerator
