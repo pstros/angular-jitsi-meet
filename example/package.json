@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "angular": "^1.4.0",
-    "angular-jitsi-meet": "*"
+    "angular-jitsi-meet": "../"
   },
   "devDependencies": {
     "browserify": "^10.2.3"

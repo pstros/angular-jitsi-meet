@@ -47,7 +47,7 @@ module.exports = ($log, $rootScope) ->
     return
 
   isConnected = ->
-    XMPP.getConnection() and !XMPP.getConnection().connected
+    XMPP.getConnection() !== null and XMPP.getConnection().connected
 
   isModerator = ->
     XMPP.isModerator()
