@@ -1,6 +1,9 @@
 'use strict'
-angular.module('jm.xmpp', []).factory 'XmppService', [
+name = 'jm.xmpp'
+angular.module(name, []).factory 'XmppService', [
   '$log'
   '$rootScope'
   require('./XmppService')
 ]
+
+module.exports = name: name
