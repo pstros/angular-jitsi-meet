@@ -2,8 +2,7 @@
 
 #global objects: APP, config
 
-module.exports = ($log, $rootScope) ->
-  XMPP = require 'jitsi-meet/modules/xmpp/xmpp'
+module.exports = ($log, $rootScope, XMPP) ->
   members = {}
   userInfo =
     nick: ''

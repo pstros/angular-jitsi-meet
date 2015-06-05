@@ -12,6 +12,7 @@ xmppModule.factory 'XMPPService', [
 xmppModule.factory 'MembersService', [
   '$log'
   '$rootScope'
+  'XMPPService'
   require './MembersService'
 ]
 
