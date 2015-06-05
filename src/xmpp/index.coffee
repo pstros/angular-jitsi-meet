@@ -9,11 +9,11 @@ xmppModule.factory 'XMPPService', [
   require './XMPPService'
 ]
 
-xmppModule.factory 'MembersService', [
+xmppModule.factory 'MemberService', [
   '$log'
   '$rootScope'
   'XMPPService'
-  require './MembersService'
+  require './MemberService'
 ]
 
 module.exports = name: name
