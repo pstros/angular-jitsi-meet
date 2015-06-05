@@ -15,11 +15,12 @@ module.exports = (config) ->
       'node_modules/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
 
+      # test
+      'test/mocks.coffee',
+      'test/**/*Spec.coffee'
+
       # client
       'dist/angular-jitsi-meet.js',
-
-      # test
-      'test/**/*Spec.coffee'
     ]
 
     # list of files to exclude
@@ -28,9 +29,8 @@ module.exports = (config) ->
 
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {
+    preprocessors:
       '**/*.coffee': ['coffee']
-    }
 
     # test results reporter to use
     # possible values: 'dots', 'progress'
