@@ -1,6 +1,6 @@
 {
   "name": "angular-jitsi-meet",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Angular Wrappers for Jitsi-Meet",
   "main": "index.js",
   "scripts": {
@@ -22,9 +22,17 @@
   },
   "devDependencies": {
     "angular": "^1.4.0",
+    "angular-mocks": "^1.4.0",
     "browserify": "^10.2.3",
     "coffee-script": "^1.9.3",
-    "coffeelint": "^1.10.0"
+    "coffeelint": "^1.10.0",
+    "karma": "^0.12.36",
+    "karma-coffee-preprocessor": "^0.2.1",
+    "karma-mocha": "^0.1.10",
+    "karma-phantomjs-launcher": "^0.2.0",
+    "karma-sinon-chai": "^0.3.0",
+    "mocha": "^2.2.5",
+    "phantomjs": "^1.9.17"
   },
   "files": [
     "lib/",

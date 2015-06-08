@@ -2,7 +2,7 @@ BUNDLE := dist/angular-jitsi-meet.js
 
 .PHONY: dist init clean test build browserify publish
 
-dist: clean init test build browserify
+dist: clean init coffeelint build browserify test
 
 init:
 	npm install
@@ -11,7 +11,7 @@ clean:
 	rm -f $(BUNDLE)
 	rm -rf lib/
 
-test:
+coffeelint:
 	node_modules/.bin/coffeelint src/**/*.coffee
 
 build:
@@ -19,7 +19,10 @@ build:
 
 browserify: build
 	mkdir -p dist/
-	node_modules/.bin/browserify -e index.js -s APP -o ${BUNDLE}
+	node_modules/.bin/browserify -e index.js -o ${BUNDLE}
+
+test:
+	node_modules/karma/bin/karma start karma.conf.coffee --single-run
 
 publish: dist
 	npm publish

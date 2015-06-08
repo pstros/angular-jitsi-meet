@@ -24,8 +24,10 @@ See the example below.
         .module('app', [xmpp.name])
 
 ## Example
-You can see and build (browserify) an example in the example directory.
+You can see and build (browserify) an example in the example directory.  Make sure you've run make on the 
+angular-jitsi-meet module first since the example uses a local module dependency
 
+    make
     cd example
     npm install
     npm run browserify

@@ -2,8 +2,7 @@
 
 #global objects: APP, config
 
-module.exports = ($log, $rootScope) ->
-  XMPP = require 'jitsi-meet/modules/xmpp/xmpp'
+module.exports = ($log, $rootScope, XMPP) ->
   members = {}
   userInfo =
     nick: ''
@@ -47,7 +46,7 @@ module.exports = ($log, $rootScope) ->
     return
 
   isConnected = ->
-    XMPP.getConnection() and !XMPP.getConnection().connected
+    XMPP.getConnection() and XMPP.getConnection().connected
 
   isModerator = ->
     XMPP.isModerator()

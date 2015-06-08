@@ -1,9 +1,19 @@
 'use strict'
 name = 'jm.xmpp'
-angular.module(name, []).factory 'XmppService', [
+
+xmppModule = angular.module name, []
+xmppModule.constant 'XMPPEvents', require 'jitsi-meet/service/xmpp/XMPPEvents'
+
+xmppModule.factory 'XMPPService', [
+  '$rootScope'
+  require './XMPPService'
+]
+
+xmppModule.factory 'MemberService', [
   '$log'
   '$rootScope'
-  require('./XmppService')
+  'XMPPService'
+  require './MemberService'
 ]
 
 module.exports = name: name
