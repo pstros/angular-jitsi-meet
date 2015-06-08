@@ -1,3 +1,5 @@
 'use strict'
 
-require('./lib/xmpp');
+require('./angular/xmpp');
+
+require('./angular/common');

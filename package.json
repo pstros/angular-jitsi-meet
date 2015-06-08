@@ -25,9 +25,13 @@
     "angular-mocks": "^1.4.0",
     "browserify": "^10.2.3",
     "coffee-script": "^1.9.3",
+    "coffeeify": "^1.1.0",
     "coffeelint": "^1.10.0",
+    "events": "^1.0.2",
     "karma": "^0.12.36",
+    "karma-browserify": "^4.2.1",
     "karma-coffee-preprocessor": "^0.2.1",
+    "karma-commonjs-plus": "^1.0.0",
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-sinon-chai": "^0.3.0",
@@ -35,7 +39,8 @@
     "phantomjs": "^1.9.17"
   },
   "files": [
-    "lib/",
+    "angular/",
+    "jitsi/",
     "dist/",
     "index.js"
   ]

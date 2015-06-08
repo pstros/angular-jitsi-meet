@@ -1,15 +1,18 @@
 'use strict'
 name = 'jm.xmpp'
 
-xmppModule = angular.module name, []
-xmppModule.constant 'XMPPEvents', require 'jitsi-meet/service/xmpp/XMPPEvents'
+#commonModule = require '../common'
 
-xmppModule.factory 'XMPPService', [
+angularModule = angular.module name, []#[commonModule.name]
+angularModule.constant 'XMPPEvents', require 'jitsi-meet/service/xmpp/XMPPEvents'
+
+angularModule.factory 'XMPPService', [
   '$rootScope'
+  'EventAdapter'
   require './XMPPService'
 ]
 
-xmppModule.factory 'MemberService', [
+angularModule.factory 'MemberService', [
   '$log'
   '$rootScope'
   'XMPPService'

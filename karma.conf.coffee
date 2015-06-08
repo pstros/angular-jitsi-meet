@@ -7,20 +7,23 @@ module.exports = (config) ->
     frameworks: [
       'mocha',
       'sinon-chai'
+#      'commonjs'
     ]
 
     # list of files / patterns to load in the browser
     files: [
       # vendor
-      'node_modules/angular/angular.js',
-      'node_modules/angular-mocks/angular-mocks.js',
-
-      # test
-      'test/mocks.coffee',
-      'test/**/*Spec.coffee'
+      'node_modules/angular/angular.js'
+      'node_modules/angular-mocks/angular-mocks.js'
+      
 
       # client
-      'dist/angular-jitsi-meet.js',
+      'dist/angular-jitsi-meet.js'
+#      'src/**/*.coffee'
+
+      # test
+      'test/mocks.coffee'
+      'test/**/*Spec.coffee'
     ]
 
     # list of files to exclude
@@ -30,7 +33,14 @@ module.exports = (config) ->
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:
-      '**/*.coffee': ['coffee']
+      'src/**/*.coffee': ['coffee']#, 'commonjs']
+      'test/**/*.coffee': ['coffee']#, 'commonjs']
+
+#    commonjsPreprocessor:
+#      shouldExecFile: (file) ->
+#        file.path.indexOf 'test/' > -1
+#      processContent: (content, file, cb) ->
+#        cb(content)
 
     # test results reporter to use
     # possible values: 'dots', 'progress'
