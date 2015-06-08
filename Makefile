@@ -22,7 +22,7 @@ browserify: build
 	node_modules/.bin/browserify -e index.js -o ${BUNDLE}
 
 test:
-	node_modules/karma/bin/karma start karma.conf.coffee
+	node_modules/karma/bin/karma start karma.conf.coffee --single-run
 
 publish: dist
 	npm publish
