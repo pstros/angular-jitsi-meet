@@ -16,18 +16,24 @@ To use jitsi-meet's xmpp module in your angular project
 4. Add the XmppService as a dependency of your controller, directive, or service
 
 Instead of loading all modules with require('angular-jitsi-meet') you could load just the xmpp module with 
-require('angular-jitsi-meet/lib/xmpp').  You can also get the name of the angular module from the required module.
+require('angular-jitsi-meet/angular/xmpp'). You can also get the name of the angular module from the required module.
 See the example below.
     
-    xmpp = require('angular-jitsi-meet/lib/xmpp');
+    xmpp = require('angular-jitsi-meet/angular/xmpp');
     angular
         .module('app', [xmpp.name])
 
+## Run tests
+
+    make test
+
 ## Example
 You can see and build (browserify) an example in the example directory.  Make sure you've run make on the 
-angular-jitsi-meet module first since the example uses a local module dependency
+angular-jitsi-meet module first since the example uses a local node module dependency
 
     make
     cd example
     npm install
     npm run browserify
+
+Then open example/index.html in a browser
