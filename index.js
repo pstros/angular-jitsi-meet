@@ -1,7 +1,8 @@
 'use strict'
 
-require('./angular')
-require('./angular/xmpp');
-require('./angular/RTC');
+var ajmModuleName = require('./angular');
+require('./angular/member');
 
 require('./angular/common');
+
+module.exports = ajmModuleName;

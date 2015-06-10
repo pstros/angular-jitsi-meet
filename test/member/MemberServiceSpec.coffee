@@ -9,7 +9,7 @@ describe 'Member Service', ->
   $rootScope = undefined
   $log = undefined
   XMPP = undefined
-  MemberService = require '../../src/xmpp/MemberService'
+  MemberService = require '../../src/member/MemberService'
 
   beforeEach angular.mock.module('mockapp')
   beforeEach ->

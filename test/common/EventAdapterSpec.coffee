@@ -8,6 +8,7 @@ describe 'EventAdapter', ->
   $rootScope = undefined
   $log = undefined
   mockModule = undefined
+  mockReverseModule = undefined
   eventList =
     EVENT1: 'event1'
     EVENT2: 'event2'
@@ -24,8 +25,12 @@ describe 'EventAdapter', ->
 
     mockModule = new EventEmitter()
     sandbox.spy mockModule, 'addListener'
-
-
+    
+    mockReverseModule =
+      eventEmitter: new EventEmitter()
+      addListener: (callback, eventName) ->
+        @eventEmitter.addListener(eventName, callback)
+    sandbox.spy mockReverseModule, 'addListener'
 
   beforeEach inject((_EventAdapter_, _$log_, _$rootScope_) ->
     EventAdapter = _EventAdapter_
@@ -38,18 +43,22 @@ describe 'EventAdapter', ->
 
   describe 'wireUpEvents', ->
     it 'should invoke module.addListener', ->
-      EventAdapter.wireUpEvents { module: mockModule, name: 'test' }, eventList
+      EventAdapter.wireUpEvents mockModule, eventList
       mockModule.addListener.should.have.callCount Object.keys(eventList).length
     
     it 'should work with multiple lists', ->
-      EventAdapter.wireUpEvents { module: mockModule, name: 'test' }, eventList, eventList2
+      EventAdapter.wireUpEvents mockModule, eventList, eventList2
       mockModule.addListener.should.have.callCount Object.keys(eventList).length + Object.keys(eventList2).length
+      
+    it 'should work modules that reverse the add listener args', ->
+      EventAdapter.wireUpEventsReverse mockReverseModule, eventList2
+      mockReverseModule.addListener.should.have.callCount Object.keys(eventList2).length
       
   describe 'events should propagate to angular event bus', ->
     args = []
     
     beforeEach ->
-      EventAdapter.wireUpEvents { module: mockModule, name: 'test' }, eventList, eventList2
+      EventAdapter.wireUpEvents mockModule, eventList, eventList2
 
     for eventType, eventName of eventList
       do (eventName, args) ->

@@ -32,6 +32,7 @@
     "karma-browserify": "^4.2.1",
     "karma-coffee-preprocessor": "^0.2.1",
     "karma-commonjs-plus": "^1.0.0",
+    "karma-coverage": "^0.4.1",
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-sinon-chai": "^0.3.0",

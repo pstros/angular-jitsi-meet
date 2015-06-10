@@ -2,3 +2,4 @@ dist/
 angular/
 jitsi/
 node_modules/
+coverage/

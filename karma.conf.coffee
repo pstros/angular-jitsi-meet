@@ -19,11 +19,9 @@ module.exports = (config) ->
       
 
       # client
-#      'dist/angular-jitsi-meet.js'
       'src/common/*.coffee'
-#      'src/xmpp/index.coffee'
-      'src/xmpp/MemberService.coffee'
-      'src/xmpp/XMPPService.coffee'
+      'src/AngularServiceGenerator.coffee'
+      'src/member/MemberService.coffee'
 
       # test
       'test/mocks.coffee'
@@ -37,7 +35,7 @@ module.exports = (config) ->
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:
-      'src/**/*.coffee': ['coffee', 'commonjs']
+      'src/**/*.coffee': ['coffee', 'commonjs', 'coverage']
       'test/**/!(mocks).coffee': ['coffee', 'commonjs']
       'test/mocks.coffee': ['browserify']
 
@@ -53,7 +51,7 @@ module.exports = (config) ->
     # test results reporter to use
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['spec']
+    reporters: ['spec', 'coverage']
 
     # web server port
     port: 9876
