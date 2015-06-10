@@ -1,24 +1,31 @@
 'use strict'
 
 describe 'EventAdapter', ->
+  EventEmitter = window.testHelpers.events
+#  console.log window.testHelpers.events
   sandbox = undefined
   EventAdapter = undefined
   $rootScope = undefined
   $log = undefined
   mockModule = undefined
-  eventList = undefined
+  eventList =
+    EVENT1: 'event1'
+    EVENT2: 'event2'
+    EVENT3: 'event3'
 
-  beforeEach module('jm.common')
+  eventList2 =
+    EVENT4: 'event4'
+    EVENT5: 'event5'
+    EVENT6: 'event6'
+
+  beforeEach angular.mock.module(require('../../src/common').name)
   beforeEach ->
     sandbox = sinon.sandbox.create()
 
-    mockModule = sandbox.stub()
-    mockModule.addListener = sandbox.stub()
-    
-    eventList =
-      EVENT1: 'event1'
-      EVENT2: 'event2'
-      EVENT3: 'event3'
+    mockModule = new EventEmitter()
+    sandbox.spy mockModule, 'addListener'
+
+
 
   beforeEach inject((_EventAdapter_, _$log_, _$rootScope_) ->
     EventAdapter = _EventAdapter_
@@ -31,20 +38,28 @@ describe 'EventAdapter', ->
 
   describe 'wireUpEvents', ->
     it 'should invoke module.addListener', ->
-      EventAdapter.wireUpEvents mockModule, eventList
+      EventAdapter.wireUpEvents { module: mockModule, name: 'test' }, eventList
       mockModule.addListener.should.have.callCount Object.keys(eventList).length
+    
+    it 'should work with multiple lists', ->
+      EventAdapter.wireUpEvents { module: mockModule, name: 'test' }, eventList, eventList2
+      mockModule.addListener.should.have.callCount Object.keys(eventList).length + Object.keys(eventList2).length
       
-  describe 'firing an event', ->
-    it 'should call $rootScope.broadcast', (done) ->
-      evt =
-        name: 'event1'
-        arg: 1
+  describe 'events should propagate to angular event bus', ->
+    args = []
+    
+    beforeEach ->
+      EventAdapter.wireUpEvents { module: mockModule, name: 'test' }, eventList, eventList2
 
-      mockModule.addListener.callsArgWith 1, evt.arg
+    for eventType, eventName of eventList
+      do (eventName, args) ->
+        it "#{eventName} broadcast to angular with #{args.length} args", (done) ->
+          $rootScope.$on eventName, (event, data...) ->
+            expect(event.name).to.equal eventName
+            expect(data).to.deep.equal args
+            done()
+
+          mockModule.emit eventName, args...
+      args.push "arg#{args.length + 1}"
+
       
-      $rootScope.$on evt.name, (event, arg) ->
-        expect(event.name).to.equal evt.name
-        expect(arg).to.equal evt.arg
-        done()
-
-      EventAdapter.wireUpEvents mockModule, {EVENT1: evt.name}

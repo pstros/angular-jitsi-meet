@@ -1,6 +1,4 @@
 var angular = require('angular');
-require('angular-jitsi-meet');
-// or: require('angular-jitsi-meet/angular/xmpp');
 
 //Mock objects that jitsi-meet xmpp module depends on
 config = {
@@ -13,18 +11,23 @@ APP = {
     }
 };
 
+require('angular-jitsi-meet');
+// or: require('angular-jitsi-meet/angular/xmpp');
+
+
 angular
-    .module('app', ['jm.xmpp'])
+    .module('app', ['jm.xmpp', 'jm.desktopsharing'])
     .controller('AppCtrl', AppCtrl);
 
-AppCtrl.$inject = ['XMPPService'];
+AppCtrl.$inject = ['XMPPService', 'desktopsharingService'];
 
-function AppCtrl(XMPP) {
+function AppCtrl(XMPP, desktopSharingService) {
     app = this;
     app.XMPP = XMPP;
     app.isConnected = (XMPP.getConnection() != null && XMPP.getConnection().connected);
 
     APP.XMPP = XMPP;
+    APP.desktopsharing = desktopSharingService;
 }
 
 module.exports = APP;

@@ -5,7 +5,7 @@ JITSI := jitsi
 JITSI_MODULES := ${JITSI}/modules
 JITSI_SERVICE := ${JITSI}/service
 
-.PHONY: dist init clean test build browserify publish
+.PHONY: dist init clean test build browserify example publish
 
 dist: clean init coffeelint build browserify copy test
 
@@ -33,6 +33,10 @@ browserify: build
 
 test: browserify
 	node_modules/karma/bin/karma start karma.conf.coffee --single-run
+
+example: dist
+	cd example && rm -r node_modules/angular-jitsi-meet/ app-bundle.js && npm install && npm run browserify
+	@echo 'Please open example/index.html in a browser'
 
 publish: dist
 	npm publish

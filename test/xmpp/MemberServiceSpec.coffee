@@ -5,26 +5,24 @@
 describe 'Member Service', ->
 
   sandbox = undefined
-  MemberService = undefined
+  memberService = undefined
   $rootScope = undefined
   $log = undefined
   XMPP = undefined
+  MemberService = require '../../src/xmpp/MemberService'
 
-  beforeEach module('jm.xmpp')
+  beforeEach angular.mock.module('mockapp')
   beforeEach ->
     sandbox = sinon.sandbox.create()
 
     XMPP = sandbox.stub()
-    XMPP.isModerator = XMPP.getConnection = sandbox.stub() 
-
-    module ($provide) ->
-      $provide.value "XMPPService", XMPP
-      return
+    XMPP.isModerator = XMPP.getConnection = sandbox.stub()
       
-  beforeEach inject((_MemberService_, _$log_, _$rootScope_) ->
-    MemberService = _MemberService_
+  beforeEach inject((_$log_, _$rootScope_) ->
     $log = _$log_
     $rootScope = _$rootScope_
+    
+    memberService = MemberService($log, $rootScope, XMPP)
   )
 
   afterEach ->
@@ -32,10 +30,10 @@ describe 'Member Service', ->
 
   describe 'isModerator', ->
     it 'should invoke XMPP.isModerator', ->
-      MemberService.isModerator()
+      memberService.isModerator()
       expect(XMPP.isModerator).to.have.been.called
 
   describe 'isConnected', ->
     it 'should invoke XMPP.getConnection', ->
-      MemberService.isConnected()
+      memberService.isConnected()
       expect(XMPP.getConnection).to.have.been.called

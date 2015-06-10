@@ -2,9 +2,7 @@
 
 #global objects: APP, config
 
-module.exports = ($rootScope, EventAdapter) ->
+module.exports = (EventAdapter, XMPPEvents) ->
   XMPP = require 'jitsi-meet/modules/xmpp/xmpp'
-
-  XMPPEvents = require 'jitsi-meet/service/xmpp/XMPPEvents'
-  EventAdapter.wireUpEvents XMPP, XMPPEvents
+  EventAdapter.wireUpEvents { module: XMPP, name: 'xmpp' }, XMPPEvents
   XMPP

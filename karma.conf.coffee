@@ -7,7 +7,8 @@ module.exports = (config) ->
     frameworks: [
       'mocha',
       'sinon-chai'
-#      'commonjs'
+      'browserify'
+      'commonjs'
     ]
 
     # list of files / patterns to load in the browser
@@ -18,8 +19,11 @@ module.exports = (config) ->
       
 
       # client
-      'dist/angular-jitsi-meet.js'
-#      'src/**/*.coffee'
+#      'dist/angular-jitsi-meet.js'
+      'src/common/*.coffee'
+#      'src/xmpp/index.coffee'
+      'src/xmpp/MemberService.coffee'
+      'src/xmpp/XMPPService.coffee'
 
       # test
       'test/mocks.coffee'
@@ -33,19 +37,23 @@ module.exports = (config) ->
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:
-      'src/**/*.coffee': ['coffee']#, 'commonjs']
-      'test/**/*.coffee': ['coffee']#, 'commonjs']
+      'src/**/*.coffee': ['coffee', 'commonjs']
+      'test/**/!(mocks).coffee': ['coffee', 'commonjs']
+      'test/mocks.coffee': ['browserify']
 
-#    commonjsPreprocessor:
-#      shouldExecFile: (file) ->
-#        file.path.indexOf 'test/' > -1
-#      processContent: (content, file, cb) ->
-#        cb(content)
-
+    commonjsPreprocessor:
+      shouldExecFile: (file) ->
+        file.path.indexOf 'test/' > -1
+      processContent: (content, file, cb) ->
+        cb(content)
+    
+    browserify:
+      transform: ['coffeeify']
+  
     # test results reporter to use
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress']
+    reporters: ['spec']
 
     # web server port
     port: 9876

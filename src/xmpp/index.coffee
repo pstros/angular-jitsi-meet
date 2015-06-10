@@ -5,10 +5,11 @@ commonModule = require '../common'
 
 angularModule = angular.module name, [commonModule.name]
 angularModule.constant 'XMPPEvents', require 'jitsi-meet/service/xmpp/XMPPEvents'
+#angularModule.constant 'test', require 'jitsi-meet/service/desktopsharing/DesktopSharingEventTypes'
 
 angularModule.factory 'XMPPService', [
-  '$rootScope'
   'EventAdapter'
+  'XMPPEvents'
   require './XMPPService'
 ]
 

@@ -28,12 +28,8 @@ See the example below.
     make test
 
 ## Example
-You can see and build (browserify) an example in the example directory.  Make sure you've run make on the 
-angular-jitsi-meet module first since the example uses a local node module dependency
+You can see and build (browserify) an example in the example directory.  
 
-    make
-    cd example
-    npm install
-    npm run browserify
+    make example
 
 Then open example/index.html in a browser
