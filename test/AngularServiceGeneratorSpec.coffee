@@ -17,6 +17,7 @@ describe 'AngularServiceGenerator', ->
 
   beforeEach angular.mock.module 'mockapp'
   beforeEach angular.mock.module require('../src/common').name
+  
   beforeEach ->
     sandbox = sinon.sandbox.create()
     
@@ -53,13 +54,12 @@ describe 'AngularServiceGenerator', ->
 
   afterEach ->
     sandbox.restore()
-    
-  beforeEach inject((_EventAdapter_, _$rootScope_) ->
-    $rootScope = _$rootScope_
-    EventAdapter = _EventAdapter_
-  )
 
   describe 'getModuleWrapperFunction', ->
+    beforeEach inject((_EventAdapter_) ->
+      EventAdapter = _EventAdapter_
+    )
+    
     AngularService = undefined
     
     beforeEach ->
@@ -91,11 +91,11 @@ describe 'AngularServiceGenerator', ->
     
     beforeEach ->
       angularModule = getService mod
-    
+
     it 'should return the module name', ->
       expect(angularModule.name).to.equal "jm.#{mod.name}"
     
-    it 'should load the angular module', ->
+    it 'should be able to load the angular module', ->
       sandbox.spy angular, 'module'
       try
         angular.module angularModule.name
@@ -103,11 +103,14 @@ describe 'AngularServiceGenerator', ->
         
       angular.module.should.not.have.thrown()
     
-    it 'events should be wired up', ->
-      angular.module('testapp', [angularModule])
-             .run (mockService) ->
-      expect(mockService._events.length).to.equal mockModule._events.length
-      expect(mockService._events.length).to.equal mockEvents.length
+    it 'events should be wired up', (done) ->
+      angular.mock.module angularModule.name
+      
+      inject((mock) ->
+        expect(mock._events.length).to.equal mockModule._events.length
+        expect(mock._events.length).to.equal mockEvents.length
+        done()
+      )
 
   describe 'Invalid wrapInAngular call', ->
     it 'should throw an exception', ->
@@ -133,9 +136,10 @@ describe 'AngularServiceGenerator', ->
       
   verifyEvent = (done) ->
     data = 1
-    $rootScope.$on mockEvents.EVENT1, (event, value) ->
-      expect(event.name).to.equal mockEvents.EVENT1
-      expect(value).to.equal data
-      done()
+    inject ($rootScope) ->
+      $rootScope.$on mockEvents.EVENT1, (event, value) ->
+        expect(event.name).to.equal mockEvents.EVENT1
+        expect(value).to.equal data
+        done()
 
     mockModule.emit mockEvents.EVENT1, data

@@ -16,35 +16,41 @@ module.exports = (config) ->
       # vendor
       'node_modules/angular/angular.js'
       'node_modules/angular-mocks/angular-mocks.js'
-      
+
+      # mocks
+      'test/mocks.coffee'
 
       # client
-      'src/**/*.coffee'
+      'src/common/*.coffee'
+      'src/AngularServiceGenerator.coffee'
 
       # test
-      'test/mocks.coffee'
       'test/**/*Spec.coffee'
     ]
 
     # list of files to exclude
     exclude: [
+      
     ]
 
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:
-      'src/**/*.coffee': ['coffee', 'coverage', 'commonjs']
-      'test/**/!(mocks).coffee': ['coffee', 'commonjs']
       'test/mocks.coffee': ['browserify']
+      'src/**/*.coffee': ['coffee', 'coverage', 'commonjs']
+      'test/indexSpec.coffee': ['browserify']
+      'test/common/**/*Spec.coffee': ['coffee', 'commonjs']
+      'test/AngularServiceGeneratorSpec.coffee': ['coffee', 'commonjs']
 
     commonjsPreprocessor:
       shouldExecFile: (file) ->
         file.path.indexOf 'test/' > -1
       processContent: (content, file, cb) ->
-        cb(content)
+        cb content
         
     browserify:
       transform: ['coffeeify']
+      extensions: ['.coffee']
   
     # test results reporter to use
     # possible values: 'dots', 'progress'
