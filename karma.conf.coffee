@@ -19,9 +19,7 @@ module.exports = (config) ->
       
 
       # client
-      'src/common/*.coffee'
-      'src/AngularServiceGenerator.coffee'
-      'src/member/MemberService.coffee'
+      'src/**/*.coffee'
 
       # test
       'test/mocks.coffee'
@@ -35,7 +33,7 @@ module.exports = (config) ->
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:
-      'src/**/*.coffee': ['coffee', 'commonjs', 'coverage']
+      'src/**/*.coffee': ['coffee', 'coverage', 'commonjs']
       'test/**/!(mocks).coffee': ['coffee', 'commonjs']
       'test/mocks.coffee': ['browserify']
 
@@ -44,7 +42,7 @@ module.exports = (config) ->
         file.path.indexOf 'test/' > -1
       processContent: (content, file, cb) ->
         cb(content)
-    
+        
     browserify:
       transform: ['coffeeify']
   

@@ -12,7 +12,8 @@ describe 'AngularServiceGenerator', ->
   mockReverseModule = undefined
   mockEvents = undefined
   mod = undefined
-  modreverse = undefined
+  modReverse = undefined
+  modNoOpts = undefined
 
   beforeEach angular.mock.module 'mockapp'
   beforeEach angular.mock.module require('../src/common').name
@@ -39,10 +40,14 @@ describe 'AngularServiceGenerator', ->
       options:
         eventMaps:
           MockEvents: mockEvents
-
-    modreverse =
+          
+    modNoOpts =
       module: mockModule
-      name: 'mockreverse'
+      name: 'mockNoOpts'
+
+    modReverse =
+      module: mockModule
+      name: 'mockReverse'
       options:
         flipAddListenerArgs: true
 
@@ -82,24 +87,24 @@ describe 'AngularServiceGenerator', ->
         verifyEvent done
         
   describe 'wrapInAngular', ->
-    moduleName = undefined
+    angularModule = undefined
     
     beforeEach ->
-      moduleName = ServiceGenerator.wrapInAngular mod.module, mod.name, mod.options
+      angularModule = getService mod
     
     it 'should return the module name', ->
-      expect(moduleName).to.equal "jm.#{mod.name}"
+      expect(angularModule.name).to.equal "jm.#{mod.name}"
     
     it 'should load the angular module', ->
       sandbox.spy angular, 'module'
       try
-        angular.module moduleName
+        angular.module angularModule.name
       catch err
         
       angular.module.should.not.have.thrown()
     
     it 'events should be wired up', ->
-      angular.module('testapp', [moduleName])
+      angular.module('testapp', [angularModule])
              .run (mockService) ->
       expect(mockService._events.length).to.equal mockModule._events.length
       expect(mockService._events.length).to.equal mockEvents.length
@@ -115,8 +120,16 @@ describe 'AngularServiceGenerator', ->
     
   describe 'test with various module configs', (done) ->
     it 'should work with a module which has backwards addListener args', ->
-      moduleName = ServiceGenerator.wrapInAngular modreverse.module, modreverse.name, modreverse.options
+      service = getService modReverse
       verifyEvent done
+      
+    it 'should work with a module without any options set', ->
+    it 'should work with a module without any options set', ->
+      service = getService modNoOpts
+      expect(service.name).to.equal "jm.#{modNoOpts.name}"
+      
+  getService = (mod) ->
+    ServiceGenerator.wrapInAngular mod.module, mod.name, mod.options
       
   verifyEvent = (done) ->
     data = 1

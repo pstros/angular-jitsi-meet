@@ -5,8 +5,6 @@
 jitsiModules =
   Settings:
     module: require 'jitsi-meet/modules/settings/Settings'
-    options:
-      dir: 'settings'
 
 # this module has been removed in jitsi/jitsi-meet's master so we shouldn't need it
 #  simulcast:

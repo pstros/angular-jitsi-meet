@@ -1,12 +1,22 @@
 'use strict'
 
 jitsiModules = require './ModuleDefinitions'
-angularJitsiModules = []
+ajmModulePrefix = 'jm'
+ajmDeps = []
+modules = {}
 
 serviceGenerator = require './AngularServiceGenerator'
 for modName, mod of jitsiModules
-  angularJitsiModules.push serviceGenerator.wrapInAngular mod.module, modName, mod.options
-
-ajmModule = angular.module 'jm', angularJitsiModules
+  if modName is 'name' or modName is 'module'
+    throw Error 'The module name cannot be "name" or "module"'
   
-module.exports = ajmModule
+  angularModule = serviceGenerator.wrapInAngular mod.module, modName, mod.options
+  ajmDeps.push angularModule.name
+  modules[modName] = angularModule
+
+ajmAngularModule = angular.module ajmModulePrefix, ajmDeps
+
+modules.name = ajmAngularModule.name
+modules.module = ajmAngularModule.module
+
+module.exports = modules

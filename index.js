@@ -1,8 +1,5 @@
 'use strict'
 
-var ajmModuleName = require('./angular');
-require('./angular/member');
+var ajmModule = require('./angular');
 
-require('./angular/common');
-
-module.exports = ajmModuleName;
+module.exports = ajmModule;

@@ -10,7 +10,7 @@ class AngularServiceGenerator
 
     @input moduleObject
     @input moduleName
-    @input options - an object with eventMaps, dir, and flipAddListenerArgs properties. All are optional
+    @input options - an object with eventMaps, and flipAddListenerArgs properties. All are optional
     @returns angularModuleName
   ###
   wrapInAngular: (moduleObject, moduleName, options)->
@@ -18,11 +18,10 @@ class AngularServiceGenerator
       throw Error 'module and moduleName are required parameters'
     
     options = {} if !options
-    options.dir = moduleName if !options.dir
     options.eventMaps = [] if !options.eventMaps
     
-    angularModuleName = "#{angularModulePrefix}.#{options.dir}"
-    angularServiceName = "#{moduleName}Service"
+    angularModuleName = "#{angularModulePrefix}.#{moduleName}"
+    angularServiceName = "#{moduleName}"
 
     console.log "Creating angular service #{angularServiceName} in #{angularModuleName} for jitsi meet #{moduleName} module"
 
@@ -45,7 +44,7 @@ class AngularServiceGenerator
         serviceFunction
       ]
 
-    angularModuleName
+    angularModule
     
   getModuleWrapperFunction: (moduleObject, moduleName, options, eventMapArray) ->
     (EventAdapter) ->

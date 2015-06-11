@@ -8,27 +8,38 @@ Provides CommonJS modules which provide angular services which wrap select jitsi
 These can be brought into a webapp using browserify.
 
 ## Usage
-To use jitsi-meet's xmpp module in your angular project
+To load all jitsi-meet modules in your angular project
 
 1. Include angular-jitsi-meet in your project's package.json
 2. Add require('angular-jitsi-meet') to the file which declares your angular module
-3. Add 'jm.xmpp' as a dependency of your angular module
-4. Add the XmppService as a dependency of your controller, directive, or service
+3. Add 'jm' as a dependency of your angular module
+4. Add 'xmpp' as a dependency of your controller, directive, or service
 
-Instead of loading all modules with require('angular-jitsi-meet') you could load just the xmpp module with 
-require('angular-jitsi-meet/angular/xmpp'). You can also get the name of the angular module from the required module.
-See the example below.
-    
-    xmpp = require('angular-jitsi-meet/angular/xmpp');
+bash
+
+    npm install angular-jitsi-meet --save
+
+app.js
+
+    ajm = require('angular-jitsi-meet');
     angular
-        .module('app', [xmpp.name])
+        .module('app', ['jm']) //could also be [ajm.name]
+        .run(function(xmpp, RTC) {
+          //use the xmpp, RTC modules here
+        });
 
-## Run tests
+Instead of your angular app depending on all the jitsi-meet modules, you can load just the modules you want.
+    
+    ajm = require('angular-jitsi-meet');
+    angular
+        .module('app', [ajm.xmpp.name])
+
+## Run unit tests
 
     make test
 
 ## Example
-You can see and build (browserify) an example in the example directory.  
+There's an example you can build by running:  
 
     make example
 

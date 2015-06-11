@@ -11,13 +11,17 @@ APP = {
     }
 };
 
-require('angular-jitsi-meet');
+jm = require('angular-jitsi-meet');
 
 angular
-    .module('app', ['jm', 'jm.xmpp', 'jm.desktopsharing'])
+    .module('app', [jm.name])
     .controller('AppCtrl', AppCtrl);
 
-AppCtrl.$inject = ['xmppService', 'desktopsharingService', 'RTCService', 'SettingsService'];
+angular
+    .module('app2', [jm.xmpp.name, jm.desktopsharing.name, jm.RTC.name, jm.Settings.name])
+    .controller('AppCtrl', AppCtrl);
+
+AppCtrl.$inject = ['xmpp', 'desktopsharing', 'RTC', 'Settings'];
 
 function AppCtrl(XMPP, desktopSharingService, RTC, Settings) {
     app = this;
