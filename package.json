@@ -1,6 +1,6 @@
 {
   "name": "angular-jitsi-meet",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Angular Wrappers for Jitsi-Meet",
   "main": "index.js",
   "scripts": {
@@ -18,24 +18,31 @@
   },
   "homepage": "https://github.com/pstros/angular-jitsi-meet",
   "dependencies": {
-    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git"
+    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#4d7bce8baf29e08a38dc09111cb7f73b909fece9"
   },
   "devDependencies": {
     "angular": "^1.4.0",
     "angular-mocks": "^1.4.0",
     "browserify": "^10.2.3",
     "coffee-script": "^1.9.3",
+    "coffeeify": "^1.1.0",
     "coffeelint": "^1.10.0",
+    "events": "^1.0.2",
     "karma": "^0.12.36",
+    "karma-browserify": "^4.2.1",
     "karma-coffee-preprocessor": "^0.2.1",
+    "karma-commonjs-plus": "^1.0.0",
+    "karma-coverage": "^0.4.1",
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-sinon-chai": "^0.3.0",
+    "karma-spec-reporter": "0.0.19",
     "mocha": "^2.2.5",
     "phantomjs": "^1.9.17"
   },
   "files": [
-    "lib/",
+    "angular/",
+    "jitsi/",
     "dist/",
     "index.js"
   ]

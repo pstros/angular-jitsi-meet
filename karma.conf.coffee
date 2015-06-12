@@ -7,35 +7,62 @@ module.exports = (config) ->
     frameworks: [
       'mocha',
       'sinon-chai'
+      'browserify'
+      'commonjs'
     ]
 
     # list of files / patterns to load in the browser
     files: [
       # vendor
-      'node_modules/angular/angular.js',
-      'node_modules/angular-mocks/angular-mocks.js',
+      'node_modules/angular/angular.js'
+      'node_modules/angular-mocks/angular-mocks.js'
 
-      # test
-      'test/mocks.coffee',
-      'test/**/*Spec.coffee'
+      # mocks
+      'test/mocks.coffee'
 
       # client
-      'dist/angular-jitsi-meet.js',
+      'src/**/*.coffee'
+
+      # test
+      'test/**/*Spec.coffee'
     ]
 
     # list of files to exclude
     exclude: [
+      'src/ModuleDefinitions.coffee'
     ]
 
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:
-      '**/*.coffee': ['coffee']
-
+      'src/!(index).coffee': ['coffee', 'coverage', 'commonjs']
+      'src/*/**/*.coffee': ['coffee', 'coverage', 'commonjs']
+      'src/index.coffee': ['browserify', 'coverage']
+      'test/mocks.coffee': ['browserify']
+      'test/indexSpec.coffee': ['browserify']
+      'test/**/!(index)Spec.coffee': ['coffee', 'commonjs']
+  
+    commonjsPreprocessor:
+      shouldExecFile: (file) ->
+        file.path.indexOf 'test/' > -1
+      processContent: (content, file, cb) ->
+        cb content
+        
+    browserify:
+      transform: ['coffeeify']
+      extensions: ['.coffee']
+  
     # test results reporter to use
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress']
+    reporters: ['spec', 'coverage']
+
+    coverageReporter:
+      reporters: [
+        type: 'html', subdir: 'report-html'
+      ,
+        type: 'text-summary'
+      ]
 
     # web server port
     port: 9876

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html>
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
@@ -9,11 +9,22 @@
 </head>
 <body>
   <h3>Angular Jitsi Meet Example</h3>
-  <!--It is connected: {{ isConnected }}-->
-  <div ng-controller="AppCtrl as app">
-      Is connected: {{app.isConnected}}<br/>
-      XMPPService:<br/>
-      {{app.XMPP}}
+  <div ng-app="app">
+      <h4>Depend on all modules</h4>
+      <div ng-controller="AppCtrl as app">
+          Is connected: {{app.isConnected}}<br/>
+          XMPPService:<br/>
+          {{app.XMPP}}
+      </div>
+  </div>
+  
+  <div ng-app="app2">
+      <h4>Depend on specific modules</h4>
+      <div ng-controller="AppCtrl as app">
+          Is connected: {{app.isConnected}}<br/>
+          XMPPService:<br/>
+          {{app.XMPP}}
+      </div>
   </div>
 </body>
 </html>

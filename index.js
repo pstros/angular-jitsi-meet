@@ -1,3 +1,5 @@
 'use strict'
 
-require('./lib/xmpp');
+var ajmModule = require('./angular');
+
+module.exports = ajmModule;
