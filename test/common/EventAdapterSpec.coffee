@@ -9,6 +9,7 @@ describe 'EventAdapter', ->
   $log = undefined
   mockModule = undefined
   mockReverseModule = undefined
+  mockInvalidModule = undefined
   eventList =
     EVENT1: 'event1'
     EVENT2: 'event2'
@@ -31,6 +32,8 @@ describe 'EventAdapter', ->
       addListener: (callback, eventName) ->
         @eventEmitter.addListener(eventName, callback)
     sandbox.spy mockReverseModule, 'addListener'
+    
+    mockInvalidModule = name: 'test'
 
   beforeEach inject((_EventAdapter_, _$log_, _$rootScope_) ->
     EventAdapter = _EventAdapter_
@@ -53,6 +56,16 @@ describe 'EventAdapter', ->
     it 'should work modules that reverse the add listener args', ->
       EventAdapter.wireUpEventsReverse mockReverseModule, eventList2
       mockReverseModule.addListener.should.have.callCount Object.keys(eventList2).length
+      
+    it 'should throw an error for modules that do not have an addListener method', ->
+      sandbox.spy EventAdapter, 'wireUpEvents'
+      try
+        EventAdapter.wireUpEvents mockInvalidModule, eventList
+      catch err
+        
+      expect(EventAdapter.wireUpEvents).to.have.thrown()
+      
+      
       
   describe 'events should propagate to angular event bus', ->
     args = []

@@ -7,6 +7,16 @@ Angular Wrappers For Jitsi Meet Modules
 Provides CommonJS modules which provide angular services which wrap select jitsi-meet modules (such as xmpp).  
 These can be brought into a webapp using browserify.
 
+The angular service names match the jitsi-meet module names.  The general file structure within the module is:
+
+    ├── index.js           - main entrypoint for the module, requires ./angular
+    ├── dist               - dist files
+    │   ├── app-bundle.js  -   a pre-browserified version of angular-jitsi-meet
+    ├── angular            - angular modules/generators
+    ├── jitsi              - original jitsi files
+    │   ├── modules        -   jitsi modules
+    │   ├── service        -   jitsi services
+
 ## Usage
 To load all jitsi-meet modules in your angular project
 

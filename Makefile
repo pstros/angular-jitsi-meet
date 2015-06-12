@@ -13,7 +13,7 @@ init:
 	npm install
 
 clean:
-	rm -rf ${ANGULAR}/ ${JITSI}/ ${DIST}/
+	rm -rf ${ANGULAR}/ ${JITSI}/ ${DIST}/ coverage/
 
 copy:
 	mkdir -p ${JITSI_MODULES}
