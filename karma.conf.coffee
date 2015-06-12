@@ -21,8 +21,7 @@ module.exports = (config) ->
       'test/mocks.coffee'
 
       # client
-      'src/common/*.coffee'
-      'src/AngularServiceGenerator.coffee'
+      'src/**/*.coffee'
 
       # test
       'test/**/*Spec.coffee'
@@ -30,18 +29,19 @@ module.exports = (config) ->
 
     # list of files to exclude
     exclude: [
-      
+      'src/ModuleDefinitions.coffee'
     ]
 
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:
+      'src/!(index).coffee': ['coffee', 'coverage', 'commonjs']
+      'src/*/**/*.coffee': ['coffee', 'coverage', 'commonjs']
+      'src/index.coffee': ['browserify', 'coverage']
       'test/mocks.coffee': ['browserify']
-      'src/**/*.coffee': ['coffee', 'coverage', 'commonjs']
       'test/indexSpec.coffee': ['browserify']
-      'test/common/**/*Spec.coffee': ['coffee', 'commonjs']
-      'test/AngularServiceGeneratorSpec.coffee': ['coffee', 'commonjs']
-
+      'test/**/!(index)Spec.coffee': ['coffee', 'commonjs']
+  
     commonjsPreprocessor:
       shouldExecFile: (file) ->
         file.path.indexOf 'test/' > -1
@@ -56,6 +56,13 @@ module.exports = (config) ->
     # possible values: 'dots', 'progress'
     # available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['spec', 'coverage']
+
+    coverageReporter:
+      reporters: [
+        type: 'html', subdir: 'report-html'
+      ,
+        type: 'text-summary'
+      ]
 
     # web server port
     port: 9876

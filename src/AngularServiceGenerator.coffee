@@ -28,7 +28,7 @@ class AngularServiceGenerator
     commonModule = require './common'
     angularModule = angular.module angularModuleName, [commonModule.name]
 
-    if options?.eventMaps?.length == 0
+    if !moduleObject?.addListener || options?.eventMaps?.length == 0
       angularModule.factory angularServiceName, [ -> moduleObject ] #create a service with no events registered
     else
       eventMaps = []
