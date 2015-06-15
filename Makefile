@@ -1,31 +1,25 @@
 DIST := dist
 BUNDLE := ${DIST}/angular-jitsi-meet.js
-ANGULAR := angular
+LIB := lib
 JITSI := jitsi
 JITSI_MODULES := ${JITSI}/modules
 JITSI_SERVICE := ${JITSI}/service
 
 .PHONY: dist init clean test build browserify example publish
 
-dist: clean init coffeelint build browserify copy test
+dist: clean init coffeelint build browserify test
 
 init:
 	npm install
 
 clean:
-	rm -rf ${ANGULAR}/ ${JITSI}/ ${DIST}/ coverage/
-
-copy:
-	mkdir -p ${JITSI_MODULES}
-	cp -r node_modules/jitsi-meet/modules/* ${JITSI_MODULES}
-	mkdir -p ${JITSI_SERVICE}
-	cp -r node_modules/jitsi-meet/service/* ${JITSI_SERVICE}
+	rm -rf ${LIB}/ ${JITSI}/ ${DIST}/ coverage/
 
 coffeelint:
 	node_modules/.bin/coffeelint src/**/*.coffee
 
 build:
-	node_modules/.bin/coffee -o ${ANGULAR}/ -c src/
+	node_modules/.bin/coffee -o ${LIB}/ -c src/
 
 browserify: build
 	mkdir -p ${DIST}/

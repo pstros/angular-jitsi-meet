@@ -1,5 +1,4 @@
 dist/
-angular/
-jitsi/
+lib/
 node_modules/
 coverage/

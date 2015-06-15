@@ -13,13 +13,15 @@ APP = {
 
 jm = require('angular-jitsi-meet');
 
+angular.module('app', ['ajmAll', 'ajmPartial']);
+
 angular
-    .module('app', [jm.name])
+    .module('ajmAll', [jm.name])
     .controller('AppCtrl', AppCtrl);
 
 angular
-    .module('app2', [jm.xmpp.name, jm.desktopsharing.name, jm.RTC.name, jm.Settings.name])
-    .controller('AppCtrl', AppCtrl);
+    .module('ajmPartial', [jm.xmpp.name, jm.desktopsharing.name, jm.RTC.name, jm.Settings.name])
+    .controller('AppCtrl2', AppCtrl);
 
 AppCtrl.$inject = ['xmpp', 'desktopsharing', 'RTC', 'Settings'];
 

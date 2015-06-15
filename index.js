@@ -1,5 +1,5 @@
 'use strict'
 
-var ajmModule = require('./angular');
+var ajmModule = require('./lib');
 
 module.exports = ajmModule;
