@@ -28,7 +28,7 @@ class AngularServiceGenerator
     commonModule = require './common'
     angularModule = angular.module angularModuleName, [commonModule.name]
 
-    if !moduleObject?.addListener || options?.eventMaps?.length == 0
+    if !moduleObject.addListener || options?.eventMaps?.length == 0
       angularModule.factory angularServiceName, [ -> moduleObject ] #create a service with no events registered
     else
       eventMaps = []
@@ -47,12 +47,15 @@ class AngularServiceGenerator
     angularModule
     
   getModuleWrapperFunction: (moduleObject, moduleName, options, eventMapArray) ->
+    eventsWiredUp = false
     (EventAdapter) ->
-      console.info "Setting up #{moduleName} module event listeners with angular"
-      if options.flipAddListenerArgs #this is a hack for the desktopsharing module
-        EventAdapter.wireUpEventsReverse moduleObject, eventMapArray...
-      else
-        EventAdapter.wireUpEvents moduleObject, eventMapArray...
+      if !eventsWiredUp
+        console.info "Setting up #{moduleName} module event listeners for angular"
+        if options.flipAddListenerArgs #this is a hack for the desktopsharing module
+          EventAdapter.wireUpEventsReverse moduleObject, eventMapArray...
+        else
+          EventAdapter.wireUpEvents moduleObject, eventMapArray...
+        eventsWiredUp = true
       moduleObject
 
 module.exports = new AngularServiceGenerator()

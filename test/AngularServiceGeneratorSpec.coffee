@@ -83,6 +83,11 @@ describe 'AngularServiceGenerator', ->
         mockService.addListener mockEvents.EVENT1, callback
         expect(mockModule.addListener).to.have.been.calledWith mockEvents.EVENT1, callback
 
+      it 'event handlers should be registered only once', ->
+        expect(Object.keys(mockModule._events).length).to.equal Object.keys(mockEvents).length
+        mockService = AngularService EventAdapter
+        expect(Object.keys(mockModule._events).length).to.equal Object.keys(mockEvents).length
+
       it 'angular event bus will receive an emitted event', (done) ->
         verifyEvent done
         
@@ -107,8 +112,8 @@ describe 'AngularServiceGenerator', ->
       angular.mock.module angularModule.name
       
       inject((mock) ->
-        expect(mock._events.length).to.equal mockModule._events.length
-        expect(mock._events.length).to.equal mockEvents.length
+        expect(Object.keys(mock._events).length).to.equal Object.keys(mockModule._events).length
+        expect(Object.keys(mock._events).length).to.equal Object.keys(mockEvents).length
         done()
       )
 
@@ -125,8 +130,7 @@ describe 'AngularServiceGenerator', ->
     it 'should work with a module which has backwards addListener args', ->
       service = getService modReverse
       verifyEvent done
-      
-    it 'should work with a module without any options set', ->
+
     it 'should work with a module without any options set', ->
       service = getService modNoOpts
       expect(service.name).to.equal "jm.#{modNoOpts.name}"
