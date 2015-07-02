@@ -3,7 +3,7 @@ module.exports = ($log, $rootScope) ->
     if typeof moduleObject.addListener != 'function'
       throw new Exception "Unable to register events, the module doesn't have an add listener function."
       
-    $log.debug "Registering #{eventType} events with angular event bus"
+#    $log.debug "Registering #{eventType} events with angular event bus"
     callback = (args...) ->
       $rootScope.$broadcast eventName, args...
 

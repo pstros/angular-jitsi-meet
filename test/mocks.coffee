@@ -2,6 +2,8 @@
 
 window.config =
   hosts: {}
+  
+window.interfaceConfig = {}
 
 window.Strophe = {}
 
