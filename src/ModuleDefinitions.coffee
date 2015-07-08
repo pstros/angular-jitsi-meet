@@ -47,9 +47,10 @@ jitsiModules =
     
   translation:
     module: require 'jitsi-meet/modules/translation/translation'
-        
-  URLProcessor:
-    module: require 'jitsi-meet/modules/URLProcessor/URLProcessor'
+    
+# this module has side effects right now
+#  URLProcessor:
+#    module: require 'jitsi-meet/modules/URLProcessor/URLProcessor'
 
   xmpp:
     module: require 'jitsi-meet/modules/xmpp/xmpp'

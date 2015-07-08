@@ -5,7 +5,9 @@ module.exports = ($log, $rootScope) ->
       
 #    $log.debug "Registering #{eventType} events with angular event bus"
     callback = (args...) ->
-      $rootScope.$broadcast eventName, args...
+      $rootScope.$apply ->
+        $rootScope.$broadcast eventName, args...
+      
 
     #this is an ugly hack because of the desktopsharing module in jitsi-meet
     if reverseArgs

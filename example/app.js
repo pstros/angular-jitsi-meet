@@ -28,21 +28,17 @@ angular
      jm.DTMF.name,
      jm.keyboardshortcut.name,
      jm.members.name,
-     jm.RTC.name, 
+     jm.RTC.name,
      jm.Settings.name,
      jm.statistics.name,
      jm.translation.name,
-     jm.URLProcessor.name,
+//     jm.URLProcessor.name,
      jm.xmpp.name])
     .controller('AppCtrl2', AppCtrl);
 
-AppCtrl.$inject = ['API', 'connectionquality', 'desktopsharing', 'DTMF', 
-    'keyboardshortcut','members', 'RTC', 'Settings',
-    'statistics', 'translation', 'URLProcessor', 'xmpp'];
-
 function AppCtrl(API, connectionquality, desktopsharing, DTMF, 
                  keyboardshortcut, members, RTC, Settings,
-                 statistics, translation, URLProcessor, xmpp) {
+                 statistics, translation, /*URLProcessor,*/ xmpp) {
     app = this;
     app.xmpp = xmpp;
     app.isConnected = (xmpp.getConnection() != null && xmpp.getConnection().connected);
@@ -59,7 +55,7 @@ function AppCtrl(API, connectionquality, desktopsharing, DTMF,
     APP.settings = Settings;
     APP.DTMF = DTMF;
     APP.members = members;
-    APP.URLProcessor = URLProcessor;
+//    APP.URLProcessor = URLProcessor;
 }
 
 module.exports = APP;
