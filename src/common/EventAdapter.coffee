@@ -5,7 +5,10 @@ module.exports = ($log, $rootScope) ->
       
 #    $log.debug "Registering #{eventType} events with angular event bus"
     callback = (args...) ->
-      $rootScope.$apply ->
+      if not $rootScope.$$phase
+        $rootScope.$apply ->
+          $rootScope.$broadcast eventName, args...
+      else
         $rootScope.$broadcast eventName, args...
       
 

@@ -1,6 +1,6 @@
 {
   "name": "angular-jitsi-meet",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Angular Wrappers for Jitsi-Meet",
   "main": "index.js",
   "scripts": {
