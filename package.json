@@ -1,6 +1,6 @@
 {
   "name": "angular-jitsi-meet",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Angular Wrappers for Jitsi-Meet",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/pstros/angular-jitsi-meet",
   "dependencies": {
-    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#d8e9445cad360e698674d029089a659692ce95b5",
+    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#8d9e25a5f68e3bd2d349a92df855d56e6285b564",
     "jquery": "^2.1.4"
   },
   "devDependencies": {
