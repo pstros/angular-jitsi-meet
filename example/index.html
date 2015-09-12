@@ -11,16 +11,16 @@
   <h3>Angular Jitsi Meet Example</h3>
   <div>
       <h4>Depend on all modules</h4>
-      <div ng-controller="AppCtrl as app">
-          Is connected: {{app.isConnected}}<br/>
+      <div ng-controller="JitsiAppCtrl as vm">
+          Is connected: {{vm.isConnected}}<br/>
           XMPPService:<br/>
-          {{app.XMPP}}
+          {{vm.XMPP}}
       </div>
   </div>
   
   <div>
       <h4>Depend on specific modules</h4>
-      <div ng-controller="AppCtrl2 as partialApp">
+      <div ng-controller="PartialAppCtrl as partialApp">
           Is connected: {{partialApp.isConnected}}<br/>
           XMPPService:<br/>
           {{partialApp.XMPP}}

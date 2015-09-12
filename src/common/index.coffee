@@ -1,12 +1,9 @@
 'use strict'
-name = 'jm.common'
 
-angularModule = angular.module name, []
+angularModule = angular.module 'common', []
 
-angularModule.factory 'EventAdapter', [
-  '$log'
-  '$rootScope'
-  require './EventAdapter'
-]
+angularModule.factory 'EventAdapter', require './EventAdapter'
+angularModule.factory 'AngularServiceGenerator', ->
+  require './AngularServiceGenerator'
 
-module.exports = name: name
+module.exports = angularModule.name

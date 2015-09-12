@@ -2,9 +2,11 @@
 
 describe 'AngularServiceGenerator', ->
   EventEmitter = window.testHelpers.events
-  ServiceGenerator = require '../src/AngularServiceGenerator'
+  AngularServiceGenerator = require '../../src/common/AngularServiceGenerator'
+  ServiceGenerator = undefined
   AngularService = undefined
   EventAdapter = undefined
+  commonModule = undefined
   sandbox = undefined
   mockService = undefined
   $rootScope = undefined
@@ -14,9 +16,11 @@ describe 'AngularServiceGenerator', ->
   mod = undefined
   modReverse = undefined
   modNoOpts = undefined
+  mockAppModule = undefined
 
-  beforeEach angular.mock.module 'mockapp'
-  beforeEach angular.mock.module require('../src/common').name
+  beforeEach ->
+    commonModule = require('../../src/common')
+    angular.mock.module commonModule
   
   beforeEach ->
     sandbox = sinon.sandbox.create()
@@ -63,7 +67,7 @@ describe 'AngularServiceGenerator', ->
     AngularService = undefined
     
     beforeEach ->
-      AngularService = ServiceGenerator.getModuleWrapperFunction mod.module, mod.name, mod.options, [mockEvents]
+      AngularService = AngularServiceGenerator.getModuleWrapperFunction mod.module, mod.name, mod.options, [mockEvents]
     
     it 'is a function', ->
       expect(typeof AngularService).to.equal 'function'
@@ -94,49 +98,50 @@ describe 'AngularServiceGenerator', ->
   describe 'wrapInAngular', ->
     angularModule = undefined
     
-    beforeEach ->
-      angularModule = getService mod
-
-    it 'should return the module name', ->
-      expect(angularModule.name).to.equal "jm.#{mod.name}"
-    
-    it 'should be able to load the angular module', ->
-      sandbox.spy angular, 'module'
-      try
-        angular.module angularModule.name
-      catch err
-        
-      angular.module.should.not.have.thrown()
-    
-    it 'events should be wired up', (done) ->
-      angular.mock.module angularModule.name
+    describe 'the happy path', ->
+      beforeEach ->
+        mockAppModule = angular.module 'mockapp', [commonModule]
+        angular.mock.module mockAppModule.name
+        angularModule = getService mod
+  
+      it 'should return the module name', ->
+        expect(angularModule.name).to.equal mockAppModule.name
       
-      inject((mock) ->
-        expect(Object.keys(mock._events).length).to.equal Object.keys(mockModule._events).length
-        expect(Object.keys(mock._events).length).to.equal Object.keys(mockEvents).length
-        done()
-      )
-
-  describe 'Invalid wrapInAngular call', ->
-    it 'should throw an exception', ->
-      sandbox.spy ServiceGenerator, 'wrapInAngular'
-      try
-        ServiceGenerator.wrapInAngular()
-      catch err
-        
-      expect(ServiceGenerator.wrapInAngular).to.have.thrown()
-    
-  describe 'test with various module configs', (done) ->
-    it 'should work with a module which has backwards addListener args', ->
-      service = getService modReverse
-      verifyEvent done
-
-    it 'should work with a module without any options set', ->
-      service = getService modNoOpts
-      expect(service.name).to.equal "jm.#{modNoOpts.name}"
+      it 'should be able to load the angular module', ->
+        sandbox.spy angular, 'module'
+        try
+          angular.module angularModule.name
+        catch err
+          
+        angular.module.should.not.have.thrown()
       
+      it 'events should be wired up', (done) ->
+        inject((mock) ->
+          expect(Object.keys(mock._events).length).to.equal Object.keys(mockModule._events).length
+          expect(Object.keys(mock._events).length).to.equal Object.keys(mockEvents).length
+          done()
+        )
+
+    describe 'Invalid wrapInAngular call', ->
+      it 'should throw an exception', ->
+        sandbox.spy AngularServiceGenerator, 'wrapInAngular'
+        try
+          AngularServiceGenerator.wrapInAngular()
+        catch err
+
+        expect(AngularServiceGenerator.wrapInAngular).to.have.thrown()
+
+    describe 'test with various module configs', (done) ->
+      it 'should work with a module which has backwards addListener args', ->
+        service = getService modReverse
+        verifyEvent done
+
+      it 'should work with a module without any options set', ->
+        angularModule = getService modNoOpts
+        expect(angularModule.name).to.equal mockAppModule.name
+  
   getService = (mod) ->
-    ServiceGenerator.wrapInAngular mod.module, mod.name, mod.options
+    AngularServiceGenerator.wrapInAngular mockAppModule, mod.module, mod.name, mod.options
       
   verifyEvent = (done) ->
     data = 1

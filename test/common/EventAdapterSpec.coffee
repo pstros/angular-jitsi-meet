@@ -20,7 +20,7 @@ describe 'EventAdapter', ->
     EVENT5: 'event5'
     EVENT6: 'event6'
 
-  beforeEach angular.mock.module(require('../../src/common').name)
+  beforeEach angular.mock.module require '../../src/common'
   beforeEach ->
     sandbox = sinon.sandbox.create()
 

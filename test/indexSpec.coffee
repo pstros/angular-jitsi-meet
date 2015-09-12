@@ -1,6 +1,6 @@
 'use strict'
 
-modDefs = require '../src/ModuleDefinitions'
+app = require '../src/jitsi/app'
 
 describe 'angular-jitsi-meet', ->
   mockAppModule = undefined
@@ -9,17 +9,17 @@ describe 'angular-jitsi-meet', ->
   beforeEach ->
     jmModule = require '../src/index'
   
-  it 'should be able to be used in a mock module', (done) ->
-    angular.mock.module jmModule.name
+  it 'should be able to use the jitsiApp service', (done) ->
+    angular.mock.module jmModule
     
-    inject (Settings) ->
-      expect(Settings).to.deep.equal modDefs.Settings.module
+    inject (jitsiApp) ->
+      expect(jitsiApp).to.deep.equal app
       done()
       
-  describe 'loading a specific jitsi module', ->
-    it 'should be able to load the jm.Settings module', (done) ->
-      angular.mock.module jmModule.Settings.name
+  describe 'using a specific jitsi module', ->
+    it 'should be able to use the settings service in an angular module', (done) ->
+      angular.mock.module jmModule
 
-      inject (Settings) ->
-        expect(Settings).to.deep.equal modDefs.Settings.module
+      inject (settings) ->
+        expect(settings).to.deep.equal app.settings
         done()

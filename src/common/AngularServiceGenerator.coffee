@@ -1,39 +1,35 @@
 'use strict'
 
-class AngularServiceGenerator
-  angularModulePrefix = 'jm'
+
+AngularServiceGenerator =
   ###
     Creates an angular service which wraps module and wires up events from options.eventMaps. It also creates
     angular constants for each list of events.
     * Assumes that options.eventMaps is an object with keys being the angular constant name and value being an object of
-    key value pairs of events.  See ModuleDefinitions.coffee for an example
+    key value pairs of events.  See eventMappings.coffee for an example
 
     @input moduleObject
     @input moduleName
     @input options - an object with eventMaps, and flipAddListenerArgs properties. All are optional
     @returns angularModuleName
   ###
-  wrapInAngular: (moduleObject, moduleName, options)->
+  wrapInAngular: (angularModule, moduleObject, moduleName, options)->
     if !moduleObject or !moduleName
       throw Error 'module and moduleName are required parameters'
     
     options = {} if !options
     options.eventMaps = [] if !options.eventMaps
-    
-    angularModuleName = "#{angularModulePrefix}.#{moduleName}"
+
     angularServiceName = "#{moduleName}"
 
-    console.log "Creating angular service #{angularServiceName} in #{angularModuleName} for jitsi meet #{moduleName} module"
-
-    commonModule = require './common'
-    angularModule = angular.module angularModuleName, [commonModule.name]
+    console.debug "Creating angular service #{angularServiceName} in #{angularModule.name} for #{moduleName} module"
 
     if !moduleObject.addListener || options?.eventMaps?.length == 0
       angularModule.factory angularServiceName, [ -> moduleObject ] #create a service with no events registered
     else
       eventMaps = []
       for eventMapName, eventMap of options.eventMaps
-        console.info "Creating angular constant #{eventMapName} in #{angularModuleName}"
+        console.debug "Creating angular constant #{eventMapName} in #{angularModule.name}"
         angularModule.constant eventMapName, eventMap
         eventMaps.push eventMap
         
@@ -50,7 +46,7 @@ class AngularServiceGenerator
     eventsWiredUp = false
     (EventAdapter) ->
       if !eventsWiredUp
-        console.info "Setting up #{moduleName} module event listeners for angular"
+        console.debug "Setting up #{moduleName} module event listeners for angular"
         if options.flipAddListenerArgs #this is a hack for the desktopsharing module
           EventAdapter.wireUpEventsReverse moduleObject, eventMapArray...
         else
@@ -58,4 +54,4 @@ class AngularServiceGenerator
         eventsWiredUp = true
       moduleObject
 
-module.exports = new AngularServiceGenerator()
+module.exports = AngularServiceGenerator
