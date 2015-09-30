@@ -6,56 +6,37 @@ config = {
 };
 interfaceConfig = {};
 Strophe = {};
-APP = {
-    UI: {
-        checkForNickNameAndJoin: function() {}
-    }
-};
 
-jm = require('angular-jitsi-meet');
+jitsiMeet = require('angular-jitsi-meet');
 
 angular.module('app', ['ajmAll', 'ajmPartial']);
 
 angular
-    .module('ajmAll', [jm.name])
-    .controller('AppCtrl', AppCtrl);
+    .module('ajmAll', [jitsiMeet])
+    .controller('JitsiAppCtrl', JitsiAppCtrl);
+
+function JitsiAppCtrl(jitsiApp) {
+    jitsiApp.initAppObject();
+    this.xmpp = jitsiApp.xmpp;
+    this.isConnected = (jitsiApp.xmpp.getConnection() != null && jitsiApp.xmpp.getConnection().connected);
+}
 
 angular
-    .module('ajmPartial',
-    [jm.API.name,
-     jm.connectionquality.name,
-     jm.desktopsharing.name,
-     jm.DTMF.name,
-     jm.keyboardshortcut.name,
-     jm.members.name,
-     jm.RTC.name,
-     jm.Settings.name,
-     jm.statistics.name,
-     jm.translation.name,
-//     jm.URLProcessor.name,
-     jm.xmpp.name])
-    .controller('AppCtrl2', AppCtrl);
+    .module('ajmPartial', [jitsiMeet])
+    .controller('PartialAppCtrl', PartialAppCtrl);
 
-function AppCtrl(API, connectionquality, desktopsharing, DTMF, 
-                 keyboardshortcut, members, RTC, Settings,
-                 statistics, translation, /*URLProcessor,*/ xmpp) {
-    app = this;
-    app.xmpp = xmpp;
-    app.isConnected = (xmpp.getConnection() != null && xmpp.getConnection().connected);
+function PartialAppCtrl(connectionquality, desktopsharing, RTC, settings, statistics, xmpp) {
+    vm = this;
+    vm.xmpp = xmpp;
+    vm.isConnected = (xmpp.getConnection() != null && xmpp.getConnection().connected);
 
-//    this.UI = require("./modules/UI/UI");
-    APP.API = API;
+    APP.UI = {addListener: function() {}};
     APP.connectionquality = connectionquality;
     APP.statistics = statistics;
     APP.RTC = RTC;
     APP.desktopsharing = desktopsharing;
     APP.xmpp = xmpp;
-    APP.keyboardshortcut = keyboardshortcut;
-    APP.translation = translation;
-    APP.settings = Settings;
-    APP.DTMF = DTMF;
-    APP.members = members;
-//    APP.URLProcessor = URLProcessor;
+    APP.settings = settings;
 }
 
 module.exports = APP;

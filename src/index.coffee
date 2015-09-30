@@ -1,22 +1,21 @@
 'use strict'
+AngularServiceGenerator = require './common/AngularServiceGenerator'
+eventMappings = require './jitsi/eventMappings'
 
-jitsiModules = require './ModuleDefinitions'
-ajmModulePrefix = 'jm'
-ajmDeps = []
-modules = {}
+#create APP object
+APP = require './jitsi/app'
+APP.initAppObject()
+#assign to window.APP
+window.APP = APP
 
-serviceGenerator = require './AngularServiceGenerator'
-for modName, mod of jitsiModules
-  if modName is 'name' or modName is 'module'
-    throw Error 'The module name cannot be "name" or "module"'
-  
-  angularModule = serviceGenerator.wrapInAngular mod.module, modName, mod.options
-  ajmDeps.push angularModule.name
-  modules[modName] = angularModule
+#wrap jitsi modules in angular
+ajmModule = angular.module 'jm', [require './common']
+for modName, mod of APP
+  if typeof mod is 'object' #ignore the functions
+    AngularServiceGenerator.wrapInAngular ajmModule, mod, modName, eventMappings[modName]
 
-ajmAngularModule = angular.module ajmModulePrefix, ajmDeps
+#Wrap the jitsi APP object in angular
+ajmModule.factory 'jitsiApp', ->
+  APP
 
-modules.name = ajmAngularModule.name
-modules.module = ajmAngularModule.module
-
-module.exports = modules
+module.exports = ajmModule.name

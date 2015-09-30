@@ -27,20 +27,16 @@ module.exports = (config) ->
       'test/**/*Spec.coffee'
     ]
 
-    # list of files to exclude
-    exclude: [
-      'src/ModuleDefinitions.coffee'
-    ]
-
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors:
-      'src/!(index).coffee': ['coffee', 'coverage', 'commonjs']
-      'src/*/**/*.coffee': ['coffee', 'coverage', 'commonjs']
-      'src/index.coffee': ['browserify', 'coverage']
-      'test/mocks.coffee': ['browserify']
+      'src/common/**/*.coffee': ['coffee', 'coverage', 'commonjs']
+      'test/common/**/*Spec.coffee': ['coffee', 'commonjs']
+      'src/index.coffee': ['browserify']
+      'src/jitsi/**/*.coffee': ['browserify']
       'test/indexSpec.coffee': ['browserify']
-      'test/**/!(index)Spec.coffee': ['coffee', 'commonjs']
+      'test/mocks.coffee': ['browserify']
+      
   
     commonjsPreprocessor:
       shouldExecFile: (file) ->
