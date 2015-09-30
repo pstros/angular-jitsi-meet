@@ -1,4 +1,5 @@
 module.exports = ($log, $rootScope) ->
+  'ngInject'
   registerEventListener = (moduleObject, reverseArgs, eventType, eventName) ->
     if typeof moduleObject.addListener != 'function'
       throw new Exception "Unable to register events, the module doesn't have an add listener function."
