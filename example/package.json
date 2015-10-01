@@ -4,7 +4,7 @@
   "description": "Example for using angular-jitsi-meet",
   "main": "app.js",
   "scripts": {
-    "browserify": "browserify -e app.js -s APP -o app-bundle.js"
+    "browserify": "browserify -e app.js -o app-bundle.js"
   },
   "dependencies": {
     "angular": "^1.4.0",

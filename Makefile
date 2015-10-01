@@ -7,7 +7,7 @@ JITSI_SERVICE := ${JITSI}/service
 
 .PHONY: dist init clean test build browserify example publish
 
-dist: clean init coffeelint build browserify test
+dist: clean init coffeelint build browserify
 
 init:
 	npm install
