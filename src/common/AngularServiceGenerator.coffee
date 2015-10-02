@@ -39,8 +39,8 @@ AngularServiceGenerator =
       else
         eventMapping.callbacks = EventAdapter.wireUpEvents APP[modName], events...
 
-  clearEvents: (EventAdapter, eventMappings) ->
-    for modName, eventMaping of eventMappings
-      EventAdapter.clearEvents mod, eventMapping.callbacks
+  clearEvents: (EventAdapter, eventMappings, APP) ->
+    for modName, eventMapping of eventMappings
+      EventAdapter.clearEvents APP[modName], eventMapping.callbacks
 
 module.exports = AngularServiceGenerator

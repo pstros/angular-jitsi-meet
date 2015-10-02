@@ -22,25 +22,21 @@ module.exports = ($log, $rootScope) ->
 
     callback
 
-  registerEventListeners = (mod, reverseArgs, eventMap) ->
-    callbackEventObj = {}
-    for eventType, eventName of eventMap
-      callbackEventObj[eventName] = registerEventListener mod, reverseArgs, eventType, eventName
-    callbackEventObj
+  registerEventListeners = (mod, reverseArgs, eventMaps) ->
+    callbackEventMap = []
+    for eventMap in eventMaps
+      callbackEventObj = {}
+      for eventType, eventName of eventMap
+        callbackEventObj[eventName] = registerEventListener mod, reverseArgs, eventType, eventName
+      callbackEventMap.push callbackEventObj
+    callbackEventMap
 
   EventAdapter =
     wireUpEvents: (moduleObject, eventMaps...) ->
-      callbackEventMap = []
-      for eventMap in eventMaps
-        callbackEventMap.push registerEventListeners moduleObject, false, eventMap
-      callbackEventMap
+      registerEventListeners moduleObject, false, eventMaps
 
     wireUpEventsReverse: (moduleObject, eventMaps...) ->
-      callbackEventMap = []
-      for eventMap in eventMaps
-        callbackEventMap.push
-          eventMap: registerEventListeners moduleObject, true, eventMap
-      callbackEventMap
+      registerEventListeners moduleObject, true, eventMaps
 
     clearEvents: (moduleObject, callbackEventMap) ->
       for eventMap in callbackEventMap
