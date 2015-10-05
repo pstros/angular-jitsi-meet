@@ -13,45 +13,37 @@ AngularServiceGenerator =
     @input options - an object with eventMaps, and flipAddListenerArgs properties. All are optional
     @returns angularModuleName
   ###
-  wrapInAngular: (angularModule, moduleObject, moduleName, options)->
-    if !moduleObject or !moduleName
-      throw Error 'module and moduleName are required parameters'
-    
-    options = {} if !options
-    options.eventMaps = [] if !options.eventMaps
+  wrapInAngular: (angularModule, moduleObject, serviceName)->
+    if !moduleObject or !serviceName
+      throw Error 'moduleObject and serviceName are required parameters'
 
-    angularServiceName = "#{moduleName}"
+    console.debug "Creating angular service #{serviceName} in #{angularModule.name}"
 
-    console.debug "Creating angular service #{angularServiceName} in #{angularModule.name} for #{moduleName} module"
-
-    if !moduleObject.addListener || options?.eventMaps?.length == 0
-      angularModule.factory angularServiceName, [ -> moduleObject ] #create a service with no events registered
-    else
-      eventMaps = []
-      for eventMapName, eventMap of options.eventMaps
-        console.debug "Creating angular constant #{eventMapName} in #{angularModule.name}"
-        angularModule.constant eventMapName, eventMap
-        eventMaps.push eventMap
-        
-      serviceFunction = @getModuleWrapperFunction(moduleObject, moduleName, options, eventMaps)
-
-      angularModule.factory angularServiceName, [
-        'EventAdapter'
-        serviceFunction
-      ]
+    angularModule.factory serviceName, [ -> moduleObject ] #create a service with no events registered
 
     angularModule
+
+  makeEventConstants: (angularModule, eventMapping) ->
+    for eventMapName, eventMap of eventMapping.eventMaps
+      console.debug "Creating angular constant #{eventMapName} in #{angularModule.name}"
+      angularModule.constant eventMapName, eventMap
+
+  wireUpEvents: (EventAdapter, angularModule, moduleObject, eventMapping) ->
+    events = []
+    for eventMapName, eventMap of eventMapping?.eventMaps
+      events.push eventMap
     
-  getModuleWrapperFunction: (moduleObject, moduleName, options, eventMapArray) ->
-    eventsWiredUp = false
-    (EventAdapter) ->
-      if !eventsWiredUp
-        console.debug "Setting up #{moduleName} module event listeners for angular"
-        if options.flipAddListenerArgs #this is a hack for the desktopsharing module
-          EventAdapter.wireUpEventsReverse moduleObject, eventMapArray...
-        else
-          EventAdapter.wireUpEvents moduleObject, eventMapArray...
-        eventsWiredUp = true
-      moduleObject
+    if not eventMapping?.callbacks
+      eventMapping.callbacks = []
+
+    if eventMapping.flipAddListenerArgs #this is a hack for the desktopsharing module
+      eventMapping.callbacks.push EventAdapter.wireUpEventsReverse moduleObject, events...
+    else
+      eventMapping.callbacks.push EventAdapter.wireUpEvents moduleObject, events...
+        
+  clearEvents: (EventAdapter, eventMapping, moduleObject) ->
+    if eventMapping?.callbacks
+      for callback in eventMapping.callbacks
+        EventAdapter.clearEvents moduleObject, callback
 
 module.exports = AngularServiceGenerator

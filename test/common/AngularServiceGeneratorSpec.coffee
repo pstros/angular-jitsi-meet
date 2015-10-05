@@ -13,14 +13,15 @@ describe 'AngularServiceGenerator', ->
   mockModule = undefined
   mockReverseModule = undefined
   mockEvents = undefined
-  mod = undefined
-  modReverse = undefined
-  modNoOpts = undefined
   mockAppModule = undefined
+  simpleEventMapping = undefined
+  reverseEventMapping = undefined
+  complexEventMapping = undefined
 
   beforeEach ->
     commonModule = require('../../src/common')
     angular.mock.module commonModule
+    mockAppModule = angular.module 'mockapp', [commonModule]
   
   beforeEach ->
     sandbox = sinon.sandbox.create()
@@ -33,80 +34,65 @@ describe 'AngularServiceGenerator', ->
       eventEmitter: new EventEmitter()
       addListener: (callback, eventName) ->
         @eventEmitter.addListener(eventName, callback)
+      emit: (eventName, callback) ->
+        @eventEmitter.emit eventName, callback
     sandbox.spy mockReverseModule, 'addListener'
     
     mockEvents =
       EVENT1: 'event1'
       EVENT2: 'event2'
-    
-    mod =
-      module: mockModule
-      name: 'mock'
-      options:
-        eventMaps:
-          MockEvents: mockEvents
-          
-    modNoOpts =
-      module: mockModule
-      name: 'mockNoOpts'
 
-    modReverse =
-      module: mockModule
-      name: 'mockReverse'
-      options:
-        flipAddListenerArgs: true
+    TestEvents =
+      EVENT1: "evt1"
+      EVENT2: "evt2"
+      EVENT3: "evt3"
+
+    OtherEvents =
+      Event5: "evt5"
+      Event6: "evt6"
+
+    simpleEventMapping =
+      eventMaps:
+        MockEvents: mockEvents
+
+    reverseEventMapping =
+      eventMaps:
+        MockEvents: mockEvents
+      flipAddListenerArgs: true
+    
+    complexEventMapping =
+      eventMaps:
+        TestEvents: TestEvents
+        OtherEvents: OtherEvents
 
   afterEach ->
     sandbox.restore()
-
-  describe 'getModuleWrapperFunction', ->
-    beforeEach inject((_EventAdapter_) ->
-      EventAdapter = _EventAdapter_
-    )
-    
-    AngularService = undefined
-    
-    beforeEach ->
-      AngularService = AngularServiceGenerator.getModuleWrapperFunction mod.module, mod.name, mod.options, [mockEvents]
-    
-    it 'is a function', ->
-      expect(typeof AngularService).to.equal 'function'
-    
-    describe 'instantiate angular service instance', ->
-      callback = undefined
-      
-      beforeEach ->
-        mockService = AngularService EventAdapter
-        callback = (args...) ->
-      
-      it 'calling service.start should invoke mockModule.start', ->
-        mockService.start()
-        expect(mockModule.start).to.have.been.called
-
-      it 'calling service.addListener should invoke mockModule.addListener', ->
-        mockService.addListener mockEvents.EVENT1, callback
-        expect(mockModule.addListener).to.have.been.calledWith mockEvents.EVENT1, callback
-
-      it 'event handlers should be registered only once', ->
-        expect(Object.keys(mockModule._events).length).to.equal Object.keys(mockEvents).length
-        mockService = AngularService EventAdapter
-        expect(Object.keys(mockModule._events).length).to.equal Object.keys(mockEvents).length
-
-      it 'angular event bus will receive an emitted event', (done) ->
-        verifyEvent done
         
   describe 'wrapInAngular', ->
     angularModule = undefined
     
     describe 'the happy path', ->
       beforeEach ->
-        mockAppModule = angular.module 'mockapp', [commonModule]
+        angularModule = getService()
         angular.mock.module mockAppModule.name
-        angularModule = getService mod
   
-      it 'should return the module name', ->
+      it 'should return the angular module name', ->
         expect(angularModule.name).to.equal mockAppModule.name
-      
+        
+      describe 'injecting the generated service', ->
+        mockService
+        beforeEach inject (_mock_) ->
+          mockService = _mock_
+
+        it 'calling service.start should invoke mockModule.start', ->
+          mockService.start()
+          expect(mockModule.start).to.have.been.called
+  
+        it 'calling service.addListener should invoke mockModule.addListener', ->
+          callback = ->
+          mockService.addListener mockEvents.EVENT1, callback
+          expect(mockModule.addListener).to.have.been.calledWith mockEvents.EVENT1, callback
+          
       it 'should be able to load the angular module', ->
         sandbox.spy angular, 'module'
         try
@@ -114,13 +100,6 @@ describe 'AngularServiceGenerator', ->
         catch err
           
         angular.module.should.not.have.thrown()
-      
-      it 'events should be wired up', (done) ->
-        inject((mock) ->
-          expect(Object.keys(mock._events).length).to.equal Object.keys(mockModule._events).length
-          expect(Object.keys(mock._events).length).to.equal Object.keys(mockEvents).length
-          done()
-        )
 
     describe 'Invalid wrapInAngular call', ->
       it 'should throw an exception', ->
@@ -130,25 +109,71 @@ describe 'AngularServiceGenerator', ->
         catch err
 
         expect(AngularServiceGenerator.wrapInAngular).to.have.thrown()
-
-    describe 'test with various module configs', (done) ->
-      it 'should work with a module which has backwards addListener args', ->
-        service = getService modReverse
-        verifyEvent done
-
-      it 'should work with a module without any options set', ->
-        angularModule = getService modNoOpts
-        expect(angularModule.name).to.equal mockAppModule.name
   
-  getService = (mod) ->
-    AngularServiceGenerator.wrapInAngular mockAppModule, mod.module, mod.name, mod.options
+  describe 'makeEventConstants', ->
+    beforeEach ->
+      AngularServiceGenerator.makeEventConstants mockAppModule, complexEventMapping
+      angular.mock.module mockAppModule.name
       
-  verifyEvent = (done) ->
+    it 'should be able to inject event type constant', ->
+      inject (TestEvents, OtherEvents) ->
+        expect(TestEvents).to.deep.equal complexEventMapping.eventMaps.TestEvents
+        expect(OtherEvents.Event5).to.equal complexEventMapping.eventMaps.OtherEvents.Event5
+
+
+  describe 'wireUpEvents', ->
+    beforeEach ->
+      getService()
+      angular.mock.module mockAppModule.name
+
+      inject (_EventAdapter_) ->
+        EventAdapter = _EventAdapter_
+      AngularServiceGenerator.wireUpEvents EventAdapter, mockAppModule, mockModule, simpleEventMapping
+      
+      
+    it 'events should be wired up', (done) ->
+      inject((mock) ->
+        expect(Object.keys(mock._events).length).to.equal Object.keys(mockModule._events).length
+        expect(Object.keys(mock._events).length).to.equal Object.keys(mockEvents).length
+        done()
+      )
+
+    it 'angular event bus will receive an emitted event', (done) ->
+      verifyEvent done
+      
+    it 'should work with a module with backwards arguments', (done) ->
+      getService mockReverseModule, 'mockReverse'
+      AngularServiceGenerator.wireUpEvents EventAdapter, mockAppModule, mockReverseModule, reverseEventMapping
+      verifyEvent done, mockReverseModule
+      
+  describe 'clearEvents', ->
+    beforeEach ->
+      getService()
+      angular.mock.module mockAppModule.name
+
+      inject (_EventAdapter_) ->
+        EventAdapter = _EventAdapter_
+      AngularServiceGenerator.wireUpEvents EventAdapter, mockAppModule, mockModule, complexEventMapping
+      AngularServiceGenerator.clearEvents EventAdapter, complexEventMapping, mockModule
+
+    it "should not have any events left", ->
+     expect(Object.keys(mockModule._events).length).to.equal 0
+  
+  #Helpers
+  getService = (mod, name) ->
+    mod = mockModule if not mod
+    name = 'mock' if not name
+    AngularServiceGenerator.wrapInAngular mockAppModule, mod, name
+      
+  verifyEvent = (done, mod) ->
     data = 1
     inject ($rootScope) ->
       $rootScope.$on mockEvents.EVENT1, (event, value) ->
         expect(event.name).to.equal mockEvents.EVENT1
         expect(value).to.equal data
         done()
-
-    mockModule.emit mockEvents.EVENT1, data
+    
+    if not mod
+      mod = mockModule
+        
+    mod.emit mockEvents.EVENT1, data

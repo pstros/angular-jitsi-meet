@@ -6,6 +6,8 @@ eventEmitter = new EventEmitter
 UI =
   addListener: (type, listener) ->
     eventEmitter.on type, listener
+  removeListener: (type, listener) ->
+    eventEmitter.removeListener type, listener
   emit: (type, params...)->
     eventEmitter.emit type, params...
 

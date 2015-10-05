@@ -38,5 +38,3 @@ function PartialAppCtrl(connectionquality, desktopsharing, RTC, settings, statis
     APP.xmpp = xmpp;
     APP.settings = settings;
 }
-
-module.exports = APP;
