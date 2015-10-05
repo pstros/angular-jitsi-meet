@@ -24,13 +24,16 @@ ajmModule.factory 'jitsiApp', (EventAdapter) ->
   APP.wireUpEvents = ->
     if !eventsWired
       console.log "---- Wiring UP Events"
-      AngularServiceGenerator.wireUpEvents EventAdapter, ajmModule, APP, eventMappings
+      #AngularServiceGenerator.wireUpEvents EventAdapter, ajmModule, APP, eventMappings
+      for modName, eventMapping of eventMappings
+        AngularServiceGenerator.wireUpEvents EventAdapter, ajmModule, APP[modName], eventMapping
       eventsWired = true
     else
       console.log "---- Events Already Wired"
 
   APP.clearEvents = ->
-    AngularServiceGenerator.clearEvents EventAdapter, eventMappings, APP
+    for modName, eventMapping of eventMappings
+      AngularServiceGenerator.clearEvents EventAdapter, eventMapping, APP[modName]
     eventsWired = false
 
   APP.wireUpEvents()
