@@ -16,13 +16,13 @@ APP =
 
     @initAppObject() if not initialized
 
+    if startDesktopSharing
+      @desktopsharing.init()
+
     @RTC.start()
     @xmpp.start(jid, password)
     @statistics.start()
     @connectionquality.init()
-
-    if startDesktopSharing
-      @desktopsharing.init()
 
   stopJitsiServices: ->
     console.log 'global jitsi shutdown'
