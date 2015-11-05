@@ -45,6 +45,12 @@ app.js
 ## Run unit tests
 
     make test
+    
+## Releases/Publishing
+There are make targets for releasing major, minor, and patch versions as well as publishing to npm.  The release 
+targets are in the format: ```release-<major, minor or patch>```. See the example below for releasing a patch
+    
+    make release-patch pubish
 
 ## Example
 There's an example you can build by running:  
