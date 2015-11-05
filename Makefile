@@ -45,13 +45,13 @@ define release
 	git tag "v$$NEXT_VERSION" -m "Release v$$NEXT_VERSION"
 endef
 
-release-patch: build test
+release-patch: dist
 	@$(call release,patch)
 
-release-minor: build test
+release-minor: dist
 	@$(call release,minor)
 
-release-major: build test
+release-major: dist
 	@$(call release,major)
 
 publish: dist
