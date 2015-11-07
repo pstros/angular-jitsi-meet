@@ -8,7 +8,9 @@
   },
   "dependencies": {
     "angular": "^1.4.0",
-    "angular-jitsi-meet": "../"
+    "angular-jitsi-meet": "../",
+    "jquery": "^2.1.4",
+    "strophe": "^1.2.2"
   },
   "devDependencies": {
     "browserify": "^10.2.3"

@@ -9,22 +9,24 @@
 </head>
 <body ng-app="app">
   <h3>Angular Jitsi Meet Example</h3>
-  <div>
-      <h4>Depend on all modules</h4>
-      <div ng-controller="JitsiAppCtrl as vm">
-          Is connected: {{vm.isConnected}}<br/>
-          XMPPService:<br/>
-          {{vm.XMPP}}
-      </div>
-  </div>
-  
-  <div>
-      <h4>Depend on specific modules</h4>
-      <div ng-controller="PartialAppCtrl as partialApp">
-          Is connected: {{partialApp.isConnected}}<br/>
-          XMPPService:<br/>
-          {{partialApp.XMPP}}
-      </div>
-  </div>
+    <div ng-controller="JitsiAppCtrl as vm">
+        <strong>Room name:</strong> {{vm.roomName}}<br/>
+        <strong>Is connected:</strong> {{vm.isConnected}}<br/><br/>
+        <div>
+            <strong>Members:</strong>
+            <div ng-repeat="member in vm.members()">
+                {{member.displayName}} ({{member.jid}})
+            </div>
+        </div>
+        <br/>
+        <div>
+            <strong>Streams:</strong>
+            <div ng-repeat="stream in vm.streams()">
+                Jid: {{ stream.jid }}
+                Video: {{ stream.videoStream != null }}
+                Audio: {{ stream.audioStream != null }}
+            </div>
+        </div>
+    </div>
 </body>
 </html>
