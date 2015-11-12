@@ -18,26 +18,32 @@ for modName, mod of APP
       AngularServiceGenerator.makeEventConstants ajmModule, eventMappings[modName]
 
 #Wrap the jitsi APP object in angular
-ajmModule.factory 'jitsiApp', (EventAdapter) ->
+ajmModule.provider 'jitsiApp', ->
+  vm = this
   eventsWired = false
+  vm.config =
+    wireEvents: true
 
-  APP.wireUpEvents = ->
-    if !eventsWired
-      console.log "---- Wiring UP Events"
-      #AngularServiceGenerator.wireUpEvents EventAdapter, ajmModule, APP, eventMappings
+  vm.wireEvents = (shouldWireEvents) ->
+    vm.config.wireEvents = shouldWireEvents
+
+  vm.$get = (EventAdapter) ->
+    APP.wireUpEvents = ->
+      if !eventsWired && vm.config.wireEvents
+        console.log "--- WIRING Jitsi EVENTS"
+        #AngularServiceGenerator.wireUpEvents EventAdapter, ajmModule, APP, eventMappings
+        for modName, eventMapping of eventMappings
+          AngularServiceGenerator.wireUpEvents EventAdapter, ajmModule, APP[modName], eventMapping
+        eventsWired = true
+
+    APP.clearEvents = ->
       for modName, eventMapping of eventMappings
-        AngularServiceGenerator.wireUpEvents EventAdapter, ajmModule, APP[modName], eventMapping
-      eventsWired = true
-    else
-      console.log "---- Events Already Wired"
+        AngularServiceGenerator.clearEvents EventAdapter, eventMapping, APP[modName]
+      eventsWired = false
 
-  APP.clearEvents = ->
-    for modName, eventMapping of eventMappings
-      AngularServiceGenerator.clearEvents EventAdapter, eventMapping, APP[modName]
-    eventsWired = false
+    APP.wireUpEvents()
+    return APP
 
-  APP.wireUpEvents()
-
-  APP
+  return vm
 
 module.exports = ajmModule.name
