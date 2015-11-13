@@ -29,9 +29,7 @@ ajmModule.provider 'jitsiApp', ->
 
   vm.$get = (EventAdapter) ->
     APP.wireUpEvents = ->
-      if !eventsWired && vm.config.wireEvents
-        console.log "--- WIRING Jitsi EVENTS"
-        #AngularServiceGenerator.wireUpEvents EventAdapter, ajmModule, APP, eventMappings
+      if !eventsWired
         for modName, eventMapping of eventMappings
           AngularServiceGenerator.wireUpEvents EventAdapter, ajmModule, APP[modName], eventMapping
         eventsWired = true
@@ -41,7 +39,8 @@ ajmModule.provider 'jitsiApp', ->
         AngularServiceGenerator.clearEvents EventAdapter, eventMapping, APP[modName]
       eventsWired = false
 
-    APP.wireUpEvents()
+    if vm.config.wireEvents
+      APP.wireUpEvents()
     return APP
 
   return vm
