@@ -1,6 +1,5 @@
 'use strict'
 
-
 AngularServiceGenerator =
   ###
     Creates an angular service which wraps module and wires up events from options.eventMaps. It also creates
