@@ -28,6 +28,7 @@ ajmModule.provider 'jitsiApp', ->
     vm.config.wireEvents = shouldWireEvents
 
   vm.$get = (EventAdapter) ->
+    'ngInject'
     APP.wireUpEvents = ->
       if !eventsWired
         for modName, eventMapping of eventMappings
