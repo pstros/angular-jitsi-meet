@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/pstros/angular-jitsi-meet",
   "dependencies": {
-    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#rt-11-24-2015",
+    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#rt-11-30-2015",
     "jquery": "^2.1.4"
   },
   "devDependencies": {
