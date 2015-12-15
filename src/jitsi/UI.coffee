@@ -2,6 +2,7 @@ EventEmitter = require 'events'
 UIEvents = require 'jitsi-meet/service/UI/UIEvents'
 
 eventEmitter = new EventEmitter
+roomName = ''
 
 UI =
   addListener: (type, listener) ->
@@ -18,5 +19,9 @@ UI =
     eventEmitter.emit(UIEvents.PINNED_ENDPOINT, resourceJid)
   onVideoUnpinned: ->
     eventEmitter.emit(UIEvents.PINNED_ENDPOINT)
+  getRoomNode: ->
+    roomName
+  setRoomNode: (name) ->
+    roomName = name
 
 module.exports = UI
