@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "make dist",
-    "browserify": "make browserify",
-    "lint": "jshint .",
-    "validate": "npm ls"
+    "browserify": "make browserify"
   },
   "repository": {
     "type": "git",
@@ -32,7 +30,6 @@
     "coffeeify": "^1.1.0",
     "coffeelint": "^1.10.0",
     "events": "^1.0.2",
-    "jshint": "^2.8.0",
     "karma": "^0.12.36",
     "karma-browserify": "^4.2.1",
     "karma-coffee-preprocessor": "^0.2.1",
