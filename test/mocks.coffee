@@ -2,7 +2,7 @@
 
 window.config =
   hosts: {}
-  
+
 window.interfaceConfig = {}
 
 window.Strophe = {}
@@ -10,8 +10,8 @@ window.Strophe = {}
 window.APP =
   UI:
     checkForNicknameAndJoin: ->
-      
+
 angular.module 'mockapp', []
-      
+
 window.testHelpers =
   events: require 'events'

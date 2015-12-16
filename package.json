@@ -18,13 +18,14 @@
   },
   "homepage": "https://github.com/pstros/angular-jitsi-meet",
   "dependencies": {
-    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#rt-12-03-2015-3",
+    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#rt-12-16-2015",
     "jquery": "^2.1.4"
   },
   "devDependencies": {
     "angular": "^1.4.0",
     "angular-mocks": "^1.4.0",
     "browserify": "^10.2.3",
+    "browserify-shim": "3.8.10",
     "coffee-script": "^1.9.3",
     "coffeeify": "^1.1.0",
     "coffeelint": "^1.10.0",
