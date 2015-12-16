@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/pstros/angular-jitsi-meet",
   "dependencies": {
-    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#master-cherry-picks",
+    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#rt-12-16-2015",
     "jquery": "^2.1.4"
   },
   "devDependencies": {
@@ -50,10 +50,5 @@
     "lib/",
     "dist/",
     "index.js"
-  ],
-  "pre-commit": [
-    "lint",
-    "validate",
-    "test"
   ]
 }
