@@ -31,7 +31,7 @@ AngularServiceGenerator =
     events = []
     for eventMapName, eventMap of eventMapping?.eventMaps
       events.push eventMap
-    
+
     if not eventMapping?.callbacks
       eventMapping.callbacks = []
 
@@ -39,7 +39,7 @@ AngularServiceGenerator =
       eventMapping.callbacks.push EventAdapter.wireUpEventsReverse moduleObject, events...
     else
       eventMapping.callbacks.push EventAdapter.wireUpEvents moduleObject, events...
-        
+
   clearEvents: (EventAdapter, eventMapping, moduleObject) ->
     if eventMapping?.callbacks
       for callback in eventMapping.callbacks
