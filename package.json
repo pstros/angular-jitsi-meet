@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "make dist",
-    "browserify": "make browserify"
+    "browserify": "make browserify",
+    "lint": "jshint .",
+    "validate": "npm ls"
   },
   "repository": {
     "type": "git",
@@ -18,17 +20,19 @@
   },
   "homepage": "https://github.com/pstros/angular-jitsi-meet",
   "dependencies": {
-    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#rt-12-03-2015-3",
+    "jitsi-meet": "git+https://github.com/pstros/jitsi-meet.git#master-cherry-picks",
     "jquery": "^2.1.4"
   },
   "devDependencies": {
     "angular": "^1.4.0",
     "angular-mocks": "^1.4.0",
     "browserify": "^10.2.3",
+    "browserify-shim": "3.8.10",
     "coffee-script": "^1.9.3",
     "coffeeify": "^1.1.0",
     "coffeelint": "^1.10.0",
     "events": "^1.0.2",
+    "jshint": "^2.8.0",
     "karma": "^0.12.36",
     "karma-browserify": "^4.2.1",
     "karma-coffee-preprocessor": "^0.2.1",
@@ -46,5 +50,10 @@
     "lib/",
     "dist/",
     "index.js"
+  ],
+  "pre-commit": [
+    "lint",
+    "validate",
+    "test"
   ]
 }
