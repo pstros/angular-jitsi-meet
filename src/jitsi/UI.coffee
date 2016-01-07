@@ -19,6 +19,8 @@ UI =
     eventEmitter.emit(UIEvents.PINNED_ENDPOINT, resourceJid)
   onVideoUnpinned: ->
     eventEmitter.emit(UIEvents.PINNED_ENDPOINT)
+  onLastNChanged: (newLastN) ->
+    eventEmitter.emit(UIEvents.LASTN_CHANGED, newLastN)
   getRoomNode: ->
     roomName
   setRoomNode: (name) ->
