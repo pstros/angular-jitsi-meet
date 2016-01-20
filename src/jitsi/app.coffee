@@ -11,7 +11,7 @@ APP =
     @settings = require 'jitsi-meet/modules/settings/Settings'
     initialized = true
 
-  startJitsiServices: (jid, password, startDesktopSharing) ->
+  startJitsiServices: (startDesktopSharing) ->
     startDesktopSharing = startDesktopSharing || false
 
     @initAppObject() if not initialized
@@ -20,15 +20,16 @@ APP =
       @desktopsharing.init()
 
     @RTC.start()
-    @xmpp.start(jid, password)
+    @xmpp.start()
     @statistics.start()
     @connectionquality.init()
 
   stopJitsiServices: ->
     console.log 'global jitsi shutdown'
-    @RTC.stop()
+    @connectionquality.stopSendingStats()
     @statistics.stop()
     @desktopsharing.destroy()
-    @connectionquality.stopSendingStats()
+    @RTC.stop()
+
 
 module.exports = APP
